@@ -39,5 +39,5 @@
     ```   
 9. Untuk menjalankan aplikasi laravel gunakan perintah:
     ```bash
-    php artisan serve
+    php artisan serve --host=0.0.0.0
     ```
