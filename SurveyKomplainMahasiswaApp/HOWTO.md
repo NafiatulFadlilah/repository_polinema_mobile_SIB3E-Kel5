@@ -16,15 +16,28 @@
     ```bash
     cd .\SurveyKomplainMahasiswaApp\laravel-backend_survey-api\
     ```
-4. Jalankan migrasi proyek laravel menggunakan perintah: 
+4. Jalankan command berikut untuk memperbarui semua dependensi proyek ke versi terbaru sesuai dengan file
+   composer.json
+   ```bash
+   composer update
+   ```
+5. Jalankan migrasi proyek laravel menggunakan perintah: 
     ```bash
     php artisan migrate
     ```
-5. Isi database menggunakan perintah:
+6. Jalankan command berikut untuk menyalin file .env.example menjadi file .env 
+   ```bash
+   cp .env.example .env
+   ```
+7. Isi database menggunakan perintah:
     ```bash
     php artisan db:seed --class=StudentComplaintSurveySeeder
     ```
-6. Jalankan aplikasi laravel menggunakan perintah:
+8. Jalankan command berikut untuk mendapatkan kunci enkripsi aplikasi.
+   ```bash
+   php artisan key:generate
+   ```
+9. Untuk menjalankan aplikasi laravel gunakan perintah:
     ```bash
     php artisan serve
     ```
