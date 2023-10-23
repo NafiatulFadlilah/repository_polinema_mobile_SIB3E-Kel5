@@ -12,6 +12,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String selectedProblemFactor = 'Problem Factor 1'; // Nilai awal dropdown
   String selectedGender = 'Male'; // Nilai awal dropdown gender
+  String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
 
   void _viewDetailPressed(BuildContext context) {
     // Fungsi ini akan dipanggil ketika "View Detail" ditekan
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Menggeser Card dan elemen-elemen lainnya ke kanan
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Card(
                     color: Colors.white,
@@ -53,9 +54,11 @@ class _MyAppState extends State<MyApp> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 18.0), // Jarak antara tulisan dan angka
+                          SizedBox(
+                            height: 18.0,
+                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start, // Menggeser teks ke sebelah kiri
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 '1,006 ',
@@ -65,7 +68,9 @@ class _MyAppState extends State<MyApp> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 0), // Jarak antara angka dan tulisan
+                              SizedBox(
+                                width: 0,
+                              ),
                               Text(
                                 'Respon',
                                 style: TextStyle(
@@ -98,13 +103,13 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // Menggeser elemen-elemen ini ke sebelah kanan Card
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Sum of Problem Factors',
@@ -113,24 +118,27 @@ class _MyAppState extends State<MyApp> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 2.0),
+                      SizedBox(
+                        height: 2.0,
+                      ),
                       DropdownButton<String>(
                         value: selectedProblemFactor,
                         onChanged: (String? newValue) {
-                          // Tambahkan logika ketika dropdown berubah
                           setState(() {
                             selectedProblemFactor = newValue!;
                           });
                         },
-                        items: <String>['Problem Factor 1', 'Problem Factor 2', 'Problem Factor 3']
-                            .map((String value) {
+                        items: <String>[
+                          'Problem Factor 1',
+                          'Problem Factor 2',
+                          'Problem Factor 3',
+                        ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                       ),
-                      SizedBox(height: 2.0),
                       Card(
                         color: Colors.white,
                         elevation: 4.0,
@@ -139,25 +147,29 @@ class _MyAppState extends State<MyApp> {
                           child: Column(
                             children: [
                               Text(
-                                'Academic Support and Resour', // 1. Tambahkan tulisan di atas "Total: 500"
+                                'Academic Support and Resour',
                                 style: TextStyle(
                                   fontSize: 10.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10.0),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               Row(
                                 children: [
-                                  SizedBox(width: 5.0),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
                                   Text(
-                                    '278 ', // 2. Ganti "Total: 500" menjadi "278 problem"
+                                    '278 ',
                                     style: TextStyle(
-                                      fontSize: 32.0, // 2. Ukuran font 20 untuk "278"
+                                      fontSize: 32.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    'problem', // 2. Ukuran font 10 untuk "problem"
+                                    'problem',
                                     style: TextStyle(
                                       fontSize: 10.0,
                                     ),
@@ -172,62 +184,163 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-              SizedBox(height: 35.0), // Tambahkan jarak
+              SizedBox(
+                height: 30.0,
+              ),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment
-                    .start, // Ratakan elemen-elemen ini ke sebelah kiri
+              Row(
                 children: [
-                  Text(
-                    'Sum of respondents based on gender',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 10.0),
-                  DropdownButton<String>(
-                    value: selectedGender,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedGender = newValue!;
-                      });
-                    },
-                    items: <String>['Male', 'Female'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(height: 2.0),
-                  // Mengatur elemen-elemen dalam Card untuk memindahkan mereka ke sebelah kiri
-                  Card(
-                    color: Colors.white,
-                    elevation: 4.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                  Container(
+                    width: 170.0,
+                    height: 185.0,
+                    child: Card(
+                      elevation: 4.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Male',
+                            'Sum of respondents based on gender',
                             style: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(width: 10.0),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          DropdownButton<String>(
+                            value: selectedGender,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedGender = newValue!;
+                              });
+                            },
+                            items: <String>['Male', 'Female']
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          Card(
+                            color: Colors.white,
+                            elevation: 4.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    selectedGender,
+                                    style: TextStyle(
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        '329 ',
+                                        style: TextStyle(
+                                          fontSize: 32.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'persons',
+                                        style: TextStyle(
+                                          fontSize: 10.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Container(
+                    width: 160.0,
+                    child: Card(
+                      elevation: 4.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            '329',
+                            'Sum of respondents based on country of origin',
                             style: TextStyle(
-                              fontSize: 32.0,
+                              fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            ' persons',
-                            style: TextStyle(
-                              fontSize: 10.0,
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                          DropdownButton<String>(
+                            value: selectedCountry,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedCountry = newValue!;
+                              });
+                            },
+                            items: <String>['Indonesia', 'Israel', 'Palestina']
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          Card(
+                            elevation: 4.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    selectedCountry,
+                                    style: TextStyle(
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        '829 ',
+                                        style: TextStyle(
+                                          fontSize: 32.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'persons',
+                                        style: TextStyle(
+                                          fontSize: 10.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -235,6 +348,85 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 80.0,
+              ),
+              Card(
+                color: Color.fromARGB(255, 1, 28, 85),
+                elevation: 4.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.yellow, // Garis kuning pemisah
+                      height: 2.0,
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                    ),
+                    Center(
+                      child: Text(
+                        'Average of Age',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Warna teks putih
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 6.0,
+                    ),
+                    Center(
+                      child: Text(
+                        '21.3138 y.o',
+                        style: TextStyle(
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Warna teks putih
+                        ),
+                    ),
+                )],
+                ),
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+
+              Card(
+                color: Color.fromARGB(255, 1, 28, 85), // Warna latar belakang biru
+                elevation: 4.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.yellow, // Garis kuning pemisah
+                      height: 2.0,
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                    ),
+                    Center(
+                      child: Text(
+                        'Average of GPA',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Warna teks putih
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Center(
+                      child: Text(
+                        '1.9968',
+                        style: TextStyle(
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // Warna teks putih
+                        ),
+                    ),
+                )],
+                ),
               ),
             ],
           ),
