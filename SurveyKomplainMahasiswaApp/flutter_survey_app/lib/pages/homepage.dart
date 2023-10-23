@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_survey_app/pages/detail_page.dart';
+import 'package:flutter_survey_app/pages/survey_list.dart';
+import 'package:flutter_survey_app/services/server_services.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
 class MyApp extends StatefulWidget {
   @override
@@ -10,14 +13,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  ServerService? service;
+  List surveys = [];
+  int surveysCount = 0;
   String selectedProblemFactor = 'Problem Factor 1'; // Nilai awal dropdown
   String selectedGender = 'Male'; // Nilai awal dropdown gender
   String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
+
+  Future initialize() async{
+    surveys = [];
+    surveys = (await service!.getAllData());
+    setState(() {
+      surveysCount = surveys.length;
+      surveys = surveys;
+    });
+  }
+
+  @override
+  void initState(){
+    service = ServerService();
+    initialize();
+    super.initState();
+  }
+
 
   void _viewDetailPressed(BuildContext context) {
     // Fungsi ini akan dipanggil ketika "View Detail" ditekan
     // Anda dapat menambahkan logika navigasi ke halaman lain di sini
     // Contoh sederhana: Navigator.pushNamed(context, '/halaman_lain');
+    MaterialPageRoute route = MaterialPageRoute(
+      builder: (_) => SurveyList()
+    );
+    Navigator.push(context, route);
   }
 
   @override
@@ -61,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                '1,006 ',
+                                surveysCount.toString()+' ',
                                 style: TextStyle(
                                   fontSize: 38.0,
                                   color: const Color(0xFF000000),
