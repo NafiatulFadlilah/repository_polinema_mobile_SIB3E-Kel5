@@ -16,8 +16,7 @@
     ```bash
     cd .\SurveyKomplainMahasiswaApp\laravel-backend_survey-api\
     ```
-4. Jalankan command berikut untuk memperbarui semua dependensi proyek ke versi terbaru sesuai dengan file
-   composer.json
+4. Jalankan command berikut untuk memperbarui semua dependensi proyek ke versi terbaru sesuai dengan file composer.json
    ```bash
    composer update
    ```
@@ -41,3 +40,17 @@
     ```bash
     php artisan serve --host=0.0.0.0
     ```
+
+## Langkah-langkah persiapan laravel
+1. Masuk ke terminal Baru dan pindah ke path flutter menggunakan perintah:
+    ```bash
+    cd .\SurveyKomplainMahasiswaApp\flutter_survey_app\
+    ```
+1. Jalankan command berikut untuk menyalin file .env.example menjadi file .env 
+   ```bash
+   cp .env.example .env
+   ```
+1. Ubah **IP_ADDRESS** pada file .env menjadi ipv4 address yang ada pada:
+   ```bash
+   ipconfig
+   ```
