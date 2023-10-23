@@ -17,7 +17,7 @@ class _SurveyListState extends State<SurveyList> {
         title: Text('Survey List'),
       ),
       body: FutureBuilder<List<Survey>>(
-        future: serverService.fetchSurveys(),
+        future: serverService.getAllData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
