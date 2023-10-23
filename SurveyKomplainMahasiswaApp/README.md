@@ -4,7 +4,7 @@
 Proyek ini bertujuan untuk membuat aplikasi mobile yang dapat menampilkan hasil survey komplain mahasiswa tentang kampus.
 
 ## Diagram Alur (Flowchart)
-![flowchart](flutter_survey_app\img\flowchart.png)
+![flowchart](flutter_survey_app/img/flowchart.png)
 
 Flowchart di atas adalah representasi visual dari proses atau alur kerja aplikasi mobile untuk melihat hasil survey. Berikut adalah penjelasannya:
 
