@@ -35,8 +35,8 @@ Flowchart tadi bisa ngebantu pengguna buat memahami alur dari aplikasi mobile un
 
 | Foto | Nama Lengkap | GitHub | Peran |
 |:----:|:------------:|:------:|:-----:|
-| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 1" style="width:100px; height:100px; border-radius:50%;"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Project Manager |
-| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 2" style="width:100px; height:100px; border-radius:50%;"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | [-] |
-| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 3" style="width:100px; height:100px; border-radius:50%;"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | [-] |
-| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 4" style="width:100px; height:100px; border-radius:50%;"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | [-] |
+| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 1" style="width:100px; height:100px; border-radius:50%;"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
+| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 2" style="width:100px; height:100px; border-radius:50%;"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
+| <img src="[https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg](https://www.google.com/url?sa=i&url=https%3A%2F%2Fid.linkedin.com%2Fin%2Fkhosyi-nasywa-imanda-09186b220&psig=AOvVaw2QvT3O_MiG0i0GZfzsO9At&ust=1698218821803000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMikv5-UjoIDFQAAAAAdAAAAABAE)" alt="Foto 3" style="width:100px; height:100px; border-radius:50%;"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | Design UI dan Frontend Flutter |
+| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 4" style="width:100px; height:100px; border-radius:50%;"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem |
 
