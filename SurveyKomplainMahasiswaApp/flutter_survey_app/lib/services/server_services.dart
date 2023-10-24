@@ -56,17 +56,8 @@ class ServerService {
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-<<<<<<< Updated upstream
-        List surveys = [];
-        for (var item in jsonDecode(response.body)) {
-          print(item);
-          surveys.add(item);
-        }
-        return surveys;
-=======
         List byFactor = jsonDecode(response.body);
         return byFactor;
->>>>>>> Stashed changes
       } else {
         throw Exception('Failed to load surveys');
       }
