@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
   // List byFactor = [];
-  // List byGender = [];
+  List byGender = [];
   // List byNationality = [];
   double avgAge = 0;
   double avgGPA = 0;
@@ -26,13 +26,15 @@ class _MyAppState extends State<MyApp> {
   int surveysCount = 0;
   int problemCount = 0;
   int totalByFactor = 0;
+  int totalByGender = 0;
   String selectedProblemFactor = 'Sumberdaya dan\nDukungan Akademik'; // Nilai awal dropdown
-  String selectedGender = 'Male'; // Nilai awal dropdown gender
+  String selectedGender = 'M'; // Nilai awal dropdown gender
   String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
 
   Future initialize() async{
     surveys = [];
     surveys = (await service!.getAllData());
+    byGender = (await service!.getShowDataByGender());
     surveysByFactor = await service!.getShowDataByFactor();
     avgAge = (await service!.getAvgAge());
     avgGPA = (await service!.getAvgGPA());
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       surveysCount = surveys.length;
       surveys = surveys;
       surveysByFactor = surveysByFactor;
+      byGender = byGender;
     });
   }
 
@@ -203,6 +206,7 @@ class _MyAppState extends State<MyApp> {
                               setState(() {
                                 selectedProblemFactor = newValue!;
                               });
+                              _sumByCategory();
                             },
                             items: surveysByFactor.map((item) {
                               return DropdownMenuItem<String>(
@@ -286,15 +290,22 @@ class _MyAppState extends State<MyApp> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     selectedGender = newValue!;
+                                    totalByGender = byGender.firstWhere((item) => item.gender == selectedGender).total;
                                   });
                                 },
-                                items: <String>['Male', 'Female']
-                                    .map((String value) {
+                                items: byGender.map((item) {
                                   return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
+                                    value: item.gender,
+                                    child: Text(item.gender),
                                   );
                                 }).toList(),
+                                // items: <String>['Male', 'Female']
+                                //     .map((String value) {
+                                //   return DropdownMenuItem<String>(
+                                //     value: value,
+                                //     child: Text(value),
+                                //   );
+                                // }).toList(),
                               ),
                               Card(
                                 color: Colors.white,
@@ -319,7 +330,7 @@ class _MyAppState extends State<MyApp> {
                                             width: 5.0,
                                           ),
                                           Text(
-                                            '329 ',
+                                            totalByGender.toString()+' ',
                                             style: TextStyle(
                                               fontSize: 32.0,
                                               fontWeight: FontWeight.bold,
