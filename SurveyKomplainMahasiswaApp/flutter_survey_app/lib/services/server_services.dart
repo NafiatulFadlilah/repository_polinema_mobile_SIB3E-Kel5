@@ -16,7 +16,6 @@ class ServerService {
         print('s');
         List<Survey> surveys = [];
         for (var item in jsonDecode(response.body)) {
-          print(item);
           surveys.add(Survey.fromJson(item));
         }
         return surveys;
@@ -38,7 +37,6 @@ class ServerService {
         print('s');
         List<Survey> surveys = [];
         for (var item in jsonDecode(response.body)) {
-          print(item);
           surveys.add(Survey.fromJson(item));
         }
         return surveys;
@@ -58,12 +56,17 @@ class ServerService {
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
+<<<<<<< Updated upstream
         List surveys = [];
         for (var item in jsonDecode(response.body)) {
           print(item);
           surveys.add(item);
         }
         return surveys;
+=======
+        List byFactor = jsonDecode(response.body);
+        return byFactor;
+>>>>>>> Stashed changes
       } else {
         throw Exception('Failed to load surveys');
       }
@@ -73,19 +76,15 @@ class ServerService {
     }
   }
 
-  Future<List<Survey>> getShowDataByGender() async {
+  Future<List> getShowDataByGender() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_gender';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List<Survey> surveys = [];
-        for (var item in jsonDecode(response.body)) {
-          print(item);
-          surveys.add(Survey.fromJson(item));
-        }
-        return surveys;
+        List byGender = jsonDecode(response.body);
+        return byGender;
       } else {
         throw Exception('Failed to load surveys');
       }
@@ -95,19 +94,15 @@ class ServerService {
     }
   }
 
-  Future<List<Survey>> getShowDataByNationality() async {
+  Future<List> getShowDataByNationality() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_nationality';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List<Survey> surveys = [];
-        for (var item in jsonDecode(response.body)) {
-          print(item);
-          surveys.add(Survey.fromJson(item));
-        }
-        return surveys;
+        List byNationality = jsonDecode(response.body);
+        return byNationality;
       } else {
         throw Exception('Failed to load surveys');
       }
@@ -117,47 +112,37 @@ class ServerService {
     }
   }
 
-  Future<List<Survey>> getAvgAge() async {
+  Future<int> getAvgAge() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'get_average_age';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List<Survey> surveys = [];
-        for (var item in jsonDecode(response.body)) {
-          print(item);
-          surveys.add(Survey.fromJson(item));
-        }
-        return surveys;
+        return jsonDecode(response.body) * 1;
       } else {
-        throw Exception('Failed to load surveys');
+        throw Exception('Failed to load average age');
       }
     } catch (e) {
       print(e);
-      return [];
+      return 0;
     }
   }
 
-  Future<List<Survey>> getAvgGPA() async {
+  Future<double> getAvgGPA() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'get_average_gpa';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List<Survey> surveys = [];
-        for (var item in jsonDecode(response.body)) {
-          print(item);
-          surveys.add(Survey.fromJson(item));
-        }
-        return surveys;
+        return jsonDecode(response.body) * 1.0;
       } else {
-        throw Exception('Failed to load surveys');
+        throw Exception('Failed to load average gpa');
       }
     } catch (e) {
       print(e);
-      return [];
+      return 0.0;
     }
   }
 }
