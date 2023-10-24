@@ -16,7 +16,8 @@ class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
   int surveysCount = 0;
-  String selectedProblemFactor = 'Problem Factor 1'; // Nilai awal dropdown
+  int problemCount = 0;
+  String selectedProblemFactor = 'Sumberdaya dan\nDukungan Akademik'; // Nilai awal dropdown
   String selectedGender = 'Male'; // Nilai awal dropdown gender
   String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
 
@@ -45,6 +46,24 @@ class _MyAppState extends State<MyApp> {
       builder: (_) => SurveyList()
     );
     Navigator.push(context, route);
+  }
+
+  Future _sumByCategory() async {
+    List surveyByCat = [];
+    surveyByCat = (await service!.getShowDataByFactor());
+    if(selectedProblemFactor == 'Sumberdaya dan\nDukungan Akademik'){
+      var genre = 'Academic Support and Resources';
+      var total = surveyByCat.firstWhere((total) => total['genre'] == genre);
+      surveysCount = total;
+      // print(surveyByCat[int.parse('total')]);
+    } else if (selectedProblemFactor == 'Layanan Kantin dan Makanan') {
+      var genre = 'Food and Cantines';
+      var total = surveyByCat.firstWhere((total) => total['genre'] == genre);
+      surveysCount = total;
+    } else {
+      var total = 0;
+      surveysCount = total;
+    }
   }
 
   @override
@@ -139,7 +158,8 @@ class _MyAppState extends State<MyApp> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sum of Problem Factors',
+                        'Jumlah Setiap Faktor\n'+
+                        'Permasalahan',
                         style: TextStyle(
                           fontSize: 13.0,
                           fontWeight: FontWeight.bold,
@@ -154,15 +174,17 @@ class _MyAppState extends State<MyApp> {
                           setState(() {
                             selectedProblemFactor = newValue!;
                           });
+                          _sumByCategory();
                         },
                         items: <String>[
-                          'Problem Factor 1',
-                          'Problem Factor 2',
-                          'Problem Factor 3',
+                          'Sumberdaya dan\n'+
+                          'Dukungan Akademik',
+                          'Layanan Kantin dan Makanan',
+                          'Lainnya',
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value, style: TextStyle(fontSize: 12),),
                           );
                         }).toList(),
                       ),
@@ -173,30 +195,30 @@ class _MyAppState extends State<MyApp> {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              Text(
-                                'Academic Support and Resour',
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
+                              // Text(
+                              //   'Academic Support and Resour',
+                              //   style: TextStyle(
+                              //     fontSize: 10.0,
+                              //     fontWeight: FontWeight.bold,
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 10.0,
+                              // ),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: 5.0,
                                   ),
                                   Text(
-                                    '278 ',
+                                    problemCount.toString()+' ',
                                     style: TextStyle(
                                       fontSize: 32.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    'problem',
+                                    'respon',
                                     style: TextStyle(
                                       fontSize: 10.0,
                                     ),
