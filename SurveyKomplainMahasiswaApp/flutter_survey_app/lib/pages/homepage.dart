@@ -16,13 +16,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
-  // List byFactor = [];
-  // List byGender = [];
-  // List byNationality = [];
-  double avgAge = 0;
-  double avgGPA = 0;
+  List itemByFactor = [];
+  List surveysByFactor = [];
   int surveysCount = 0;
   int problemCount = 0;
+  int totalByFactor = 0;
   String selectedProblemFactor = 'Sumberdaya dan\nDukungan Akademik'; // Nilai awal dropdown
   String selectedGender = 'Male'; // Nilai awal dropdown gender
   String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
@@ -30,14 +28,13 @@ class _MyAppState extends State<MyApp> {
   Future initialize() async{
     surveys = [];
     surveys = (await service!.getAllData());
-    // byFactor = (await service!.getShowDataByFactor());
-    // byGender = (await service!.getShowDataByGender());
-    // byNationality = (await service!.getShowDataByNationality());
-    avgAge = (await service!.getAvgAge());
-    avgGPA = (await service!.getAvgGPA());
+    surveysByFactor = await service!.getShowDataByFactor();
     setState(() {
+      selectedProblemFactor = surveysByFactor[0]["genre"];
+      problemCount = surveysByFactor[0]["total"];
       surveysCount = surveys.length;
       surveys = surveys;
+      surveysByFactor = surveysByFactor;
     });
   }
 
@@ -59,10 +56,28 @@ class _MyAppState extends State<MyApp> {
     Navigator.push(context, route);
   }
 
-  // Future _sumByCategory() async {
-  //   byFactor = (await service!.getShowDataByFactor());
-  //   print(byFactor);
-  // }
+  Future _sumByCategory() async {
+    var item = surveysByFactor.firstWhere(
+      (element) => element["genre"] == selectedProblemFactor);
+    // Mengambil nilai total dari objek tersebut
+    problemCount = item["total"];
+    // List surveyByCat = [];
+    // surveyByCat = (await service!.getShowDataByFactor());
+    // if(selectedProblemFactor == 'Sumberdaya dan\nDukungan Akademik'){
+    //   problemCount = surveyByCat[int.parse('total')];
+    //   // var genre = 'Academic Support and Resources';
+    //   // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
+    //   // problemCount = total;
+    //   // print(surveyByCat[int.parse('total')]);
+    // } else if (selectedProblemFactor == 'Layanan Kantin dan Makanan') {
+    //   // var genre = 'Food and Cantines';
+    //   // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
+    //   // problemCount = total;
+    // } else {
+    //   // var total = 0;
+    //   // surveysCount = total;
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +114,9 @@ class _MyAppState extends State<MyApp> {
                             ),
                           ),
                           SizedBox(
-                            height: 18.0,
+                            height: 10.0,
                           ),
-                          Row(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
@@ -173,16 +188,10 @@ class _MyAppState extends State<MyApp> {
                             selectedProblemFactor = newValue!;
                           });
                         },
-                       
-                        items: <String>[
-                          'Sumberdaya dan\n'+
-                          'Dukungan Akademik',
-                          'Layanan Kantin dan Makanan',
-                          'Lainnya',
-                        ].map((String value) {
+                        items: surveysByFactor.map((item) {
                           return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value, style: TextStyle(fontSize: 12),),
+                            value: item["genre"],
+                            child: Text(item["genre"], style: TextStyle(fontSize: 12),),
                           );
                         }).toList(),
                       ),
