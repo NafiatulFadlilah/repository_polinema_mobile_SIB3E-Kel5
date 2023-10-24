@@ -16,6 +16,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
+  // List byFactor = [];
+  // List byGender = [];
+  // List byNationality = [];
+  double avgAge = 0;
+  double avgGPA = 0;
   List itemByFactor = [];
   List surveysByFactor = [];
   int surveysCount = 0;
@@ -29,6 +34,8 @@ class _MyAppState extends State<MyApp> {
     surveys = [];
     surveys = (await service!.getAllData());
     surveysByFactor = await service!.getShowDataByFactor();
+    avgAge = (await service!.getAvgAge());
+    avgGPA = (await service!.getAvgGPA());
     setState(() {
       selectedProblemFactor = surveysByFactor[0]["genre"];
       problemCount = surveysByFactor[0]["total"];
