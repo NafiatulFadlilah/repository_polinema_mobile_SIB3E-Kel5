@@ -322,7 +322,7 @@ class _MyAppState extends State<MyApp> {
                                 selectedCountry = newValue!;
                               });
                             },
-                            items: <String>['Indonesia', 'Israel', 'Palestina']
+                            items: <String>['Indonesia', 'Korea Selatan', 'Palestina']
                                 .map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
