@@ -16,9 +16,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
-  List byFactor = [];
-  List byGender = [];
-  List byNationality = [];
+  // List byFactor = [];
+  // List byGender = [];
+  // List byNationality = [];
   double avgAge = 0;
   double avgGPA = 0;
   int surveysCount = 0;
@@ -30,9 +30,9 @@ class _MyAppState extends State<MyApp> {
   Future initialize() async{
     surveys = [];
     surveys = (await service!.getAllData());
-    byFactor = (await service!.getShowDataByFactor());
-    byGender = (await service!.getShowDataByGender());
-    byNationality = (await service!.getShowDataByNationality());
+    // byFactor = (await service!.getShowDataByFactor());
+    // byGender = (await service!.getShowDataByGender());
+    // byNationality = (await service!.getShowDataByNationality());
     avgAge = (await service!.getAvgAge());
     avgGPA = (await service!.getAvgGPA());
     setState(() {
@@ -59,10 +59,10 @@ class _MyAppState extends State<MyApp> {
     Navigator.push(context, route);
   }
 
-  Future _sumByCategory() async {
-    byFactor = (await service!.getShowDataByFactor());
-    print(byFactor);
-  }
+  // Future _sumByCategory() async {
+  //   byFactor = (await service!.getShowDataByFactor());
+  //   print(byFactor);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +171,9 @@ class _MyAppState extends State<MyApp> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedProblemFactor = newValue!;
-                            _sumByCategory();
                           });
                         },
+                       
                         items: <String>[
                           'Sumberdaya dan\n'+
                           'Dukungan Akademik',
