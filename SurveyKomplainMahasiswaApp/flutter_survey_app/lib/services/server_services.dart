@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_survey_app/models/by_gender.dart';
+import 'package:flutter_survey_app/models/by_nationality.dart';
 import 'package:flutter_survey_app/models/survey.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -84,14 +85,17 @@ class ServerService {
     }
   }
 
-  Future<List> getShowDataByNationality() async {
+  Future<List<ByNationality>> getShowDataByNationality() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_nationality';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List byNationality = jsonDecode(response.body);
+        List<ByNationality> byNationality = [];
+        for (var item in jsonDecode(response.body)){
+          byNationality.add(ByNationality.fromJson(item));
+        }
         return byNationality;
       } else {
         throw Exception('Failed to load surveys');
