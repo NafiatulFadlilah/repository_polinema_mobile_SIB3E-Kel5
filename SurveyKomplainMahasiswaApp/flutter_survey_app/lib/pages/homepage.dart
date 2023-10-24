@@ -16,6 +16,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ServerService? service;
   List surveys = [];
+  List byFactor = [];
+  List byGender = [];
+  List byNationality = [];
+  double avgAge = 0;
+  double avgGPA = 0;
   int surveysCount = 0;
   int problemCount = 0;
   String selectedProblemFactor = 'Sumberdaya dan\nDukungan Akademik'; // Nilai awal dropdown
@@ -25,6 +30,11 @@ class _MyAppState extends State<MyApp> {
   Future initialize() async{
     surveys = [];
     surveys = (await service!.getAllData());
+    byFactor = (await service!.getShowDataByFactor());
+    byGender = (await service!.getShowDataByGender());
+    byNationality = (await service!.getShowDataByNationality());
+    avgAge = (await service!.getAvgAge());
+    avgGPA = (await service!.getAvgGPA());
     setState(() {
       surveysCount = surveys.length;
       surveys = surveys;
@@ -50,22 +60,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future _sumByCategory() async {
-    List surveyByCat = [];
-    surveyByCat = (await service!.getShowDataByFactor());
-    if(selectedProblemFactor == 'Sumberdaya dan\nDukungan Akademik'){
-      problemCount = surveyByCat[int.parse('total')];
-      // var genre = 'Academic Support and Resources';
-      // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
-      // problemCount = total;
-      // print(surveyByCat[int.parse('total')]);
-    } else if (selectedProblemFactor == 'Layanan Kantin dan Makanan') {
-      // var genre = 'Food and Cantines';
-      // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
-      // problemCount = total;
-    } else {
-      // var total = 0;
-      // surveysCount = total;
-    }
+    byFactor = (await service!.getShowDataByFactor());
+    print(byFactor);
   }
 
   @override
@@ -175,8 +171,8 @@ class _MyAppState extends State<MyApp> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedProblemFactor = newValue!;
+                            _sumByCategory();
                           });
-                          _sumByCategory();
                         },
                         items: <String>[
                           'Sumberdaya dan\n'+
@@ -429,7 +425,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                     Center(
                       child: Text(
-                        '21.3138 y.o',
+                        avgAge.toString(),
                         style: TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,
@@ -469,7 +465,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                     Center(
                       child: Text(
-                        '1.9968',
+                        avgGPA.toString(),
                         style: TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,

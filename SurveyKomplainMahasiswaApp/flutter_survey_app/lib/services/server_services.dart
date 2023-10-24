@@ -52,18 +52,13 @@ class ServerService {
   Future<List> getShowDataByFactor() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_factor';
-    try{
-      http.Response response = await http.get(Uri.parse(baseUrl!));
-      if (response.statusCode == HttpStatus.ok) {
-        print('s');
-        List byFactor = jsonDecode(response.body);
-        return byFactor;
-      } else {
-        throw Exception('Failed to load surveys');
-      }
-    } catch (e) {
-      print(e);
-      return [];
+    http.Response response = await http.get(Uri.parse(baseUrl!));
+    if (response.statusCode == HttpStatus.ok) {
+      print('s');
+      List data = jsonDecode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to load surveys');
     }
   }
 
@@ -103,14 +98,15 @@ class ServerService {
     }
   }
 
-  Future<int> getAvgAge() async {
+  Future<double> getAvgAge() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'get_average_age';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        return jsonDecode(response.body) * 1;
+        double age = double.parse(response.body);
+        return age;
       } else {
         throw Exception('Failed to load average age');
       }
@@ -127,7 +123,8 @@ class ServerService {
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        return jsonDecode(response.body) * 1.0;
+        double gpa = double.parse(response.body);
+        return gpa;
       } else {
         throw Exception('Failed to load average gpa');
       }
