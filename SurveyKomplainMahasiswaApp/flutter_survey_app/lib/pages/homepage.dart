@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_survey_app/pages/detail_page.dart';
-// import 'package:flutter_survey_app/pages/detail_page.dart';
 // import 'package:flutter_survey_app/pages/survey_list.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
 
@@ -66,7 +65,7 @@ class _MyAppState extends State<MyApp> {
     // Anda dapat menambahkan logika navigasi ke halaman lain di sini
     // Contoh sederhana: Navigator.pushNamed(context, '/halaman_lain');
     MaterialPageRoute route = MaterialPageRoute(
-      builder: (_) => DetailPage()
+      builder: (_) => DetailPage(surveysCount)
     );
     Navigator.push(context, route);
   }

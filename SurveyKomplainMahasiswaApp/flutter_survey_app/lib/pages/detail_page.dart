@@ -3,6 +3,10 @@ import 'package:flutter_survey_app/models/survey.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
 
 class DetailPage extends StatefulWidget {
+  final int dataLength;
+
+  DetailPage(this.dataLength);
+
   @override
   _DetailPageState createState() => _DetailPageState();
 }
@@ -21,7 +25,11 @@ class _DetailPageState extends State<DetailPage> {
 
   void _nextPage() {
     setState(() {
-      _currentPage++;
+      if(_currentPage < ((widget.dataLength/_rowsPerPage)+0.5).round()){
+        _currentPage++;
+      }else{
+        ((widget.dataLength/_rowsPerPage)+0.5).round();
+      }
     });
   }
 
@@ -35,7 +43,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
         title: Text('Detail Page'),
       ),
-      body: ListView(
+      body: Column(
         children: [   
           Row(
             children: [
@@ -63,48 +71,105 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ],
           ),
-          FutureBuilder<List<Survey>>(
-            future: serverService.getAllData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    dividerThickness: 1.0,
-                    columnSpacing: 100.0,
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text('No'),
-                      ),
-                      DataColumn(
-                        label: Text('Genre'),
-                      ),
-                      DataColumn(
-                        label: Text('Reports'),
-                      ),
-                    ],
-                    rows: List<DataRow>.generate(
-                      _rowsPerPage,
-                      (index) => DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text('${(_currentPage - 1) * _rowsPerPage + index + 1}')),
-                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index].genre)),
-                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index].reports)),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }
+          Expanded(
+            child: FutureBuilder<List<Survey>>(
+              future: serverService.getAllData(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _rowsPerPage,
+                    itemBuilder: (context, index) {
+                      if(((_currentPage - 1) * _rowsPerPage + index) < snapshot.data!.length){
+                        Survey survey = snapshot.data![(_currentPage - 1) * _rowsPerPage + index];
+                        return ExpansionTile(
+                          // expandedAlignment: Alignment.centerLeft,
+                          title: Text(survey.genre),
+                          subtitle: Text(survey.reports),
+                          trailing: Text(survey.nationality),
+                          children: [
+                            Divider(color: Colors.grey, height: 10, thickness: 2),
+                            Container(
+                              margin: EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text.rich(
+                                      TextSpan( // buat TextSpan pertama untuk bagian prefix
+                                        text: 'Jenis Kelamin: ', // isi properti text dengan prefix
+                                        style: TextStyle(fontWeight: FontWeight.bold), // isi properti style dengan gaya bold
+                                        children: [ // isi properti children dengan TextSpan lain untuk bagian ${survey}
+                                          TextSpan(
+                                            text: '${survey.gender == "M"?"Laki-laki":"Perempuan"}', // isi properti text dengan ${survey}
+                                            style: TextStyle(fontWeight: FontWeight.normal), // isi properti style dengan gaya normal
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.left, // rata kiri
+                                    ),
+                                    Text.rich( // ulangi langkah yang sama untuk baris berikutnya
+                                      TextSpan(
+                                        text: 'Umur: ',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text: '${survey.age}',
+                                            style: TextStyle(fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.left, // rata kiri
+                                    ),
+                                    Text.rich( // ulangi langkah yang sama untuk baris berikutnya
+                                      TextSpan(
+                                        text: 'IPK: ',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text: '${survey.gpa}',
+                                            style: TextStyle(fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.left, // rata kiri
+                                    ),
+                                    Text.rich( // ulangi langkah yang sama untuk baris berikutnya
+                                      TextSpan(
+                                        text: 'Tahun ke: ',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                        children: [
+                                          TextSpan(
+                                            text: '${survey.year}',
+                                            style: TextStyle(fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.left, // rata kiri
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -25,8 +25,7 @@ Flowchart tadi bisa ngebantu pengguna buat memahami alur dari aplikasi mobile un
 <p style="text-align: justify;">Gambar di atas merupakan homepage dari aplikasi mobile untuk melihat hasil survey. Di halaman ini pengguna bisa melihat dashboard yang berisi beberapa informasi di antaranya ada Total Surveys, Sum of Problem Factors, Sum of Respondents Based on Gender, Sum of Respondents Based on Country of Origin, Average of Age, dan Average of GPA.</p>
 
 #### 2. Detail Page (Survey List)
-<img src="flutter_survey_app/img/detailpage1.png" alt="Detailpage1" style="width: 300px; border: 0px solid #000;">
-<img src="flutter_survey_app/img/detailpage2.png" alt="Detailpage2" style="width: 300px; border: 0px solid #000;">
+<img src="flutter_survey_app/img/detailpage.png" alt="Detailpage" style="width: 300px; border: 0px solid #000;">
 
 <p style="text-align: justify;">Gambar di atas merupakan detailpage dari aplikasi mobile untuk melihat semua data survey. Di halaman ini pengguna bisa melihat survey yang berisi genre dan reports yang diberikan responden.</p>
  
