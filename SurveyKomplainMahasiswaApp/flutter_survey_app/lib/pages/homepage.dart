@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   List surveys = [];
   // List byFactor = [];
   List byGender = [];
-  // List byNationality = [];
+  List byNationality = [];
   double avgAge = 0;
   double avgGPA = 0;
   List itemByFactor = [];
@@ -27,14 +27,16 @@ class _MyAppState extends State<MyApp> {
   int problemCount = 0;
   int totalByFactor = 0;
   int totalByGender = 0;
+  int totalByNationality = 0;
   String selectedProblemFactor = 'Sumberdaya dan\nDukungan Akademik'; // Nilai awal dropdown
   String selectedGender = 'M'; // Nilai awal dropdown gender
-  String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
+  String selectedCountry = 'France'; // Nilai awal dropdown country
 
   Future initialize() async{
     surveys = [];
     surveys = (await service!.getAllData());
     byGender = (await service!.getShowDataByGender());
+    byNationality = (await service!.getShowDataByNationality());
     surveysByFactor = await service!.getShowDataByFactor();
     avgAge = (await service!.getAvgAge());
     avgGPA = (await service!.getAvgGPA());
@@ -45,6 +47,9 @@ class _MyAppState extends State<MyApp> {
       surveys = surveys;
       surveysByFactor = surveysByFactor;
       byGender = byGender;
+      totalByGender = byGender.firstWhere((item) => item.gender == selectedGender).total;
+      byNationality = byNationality;
+      totalByNationality = byNationality.firstWhere((item) => item.nationality == selectedCountry).total;
     });
   }
 
@@ -276,7 +281,7 @@ class _MyAppState extends State<MyApp> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sum of respondents based on gender',
+                                'Jumlah berdasarkan jenis kelamin',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,
@@ -363,7 +368,7 @@ class _MyAppState extends State<MyApp> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sum of respondents based on country of origin',
+                                'Jumlah berdasarkan negara asal',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,
@@ -377,15 +382,22 @@ class _MyAppState extends State<MyApp> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     selectedCountry = newValue!;
+                                    totalByNationality = byNationality.firstWhere((item) => item.nationality == selectedCountry).total;
                                   });
                                 },
-                                items: <String>['Indonesia', 'Korea Selatan', 'Palestina']
-                                    .map((String value) {
+                                items: byNationality.map((item) {
                                   return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
+                                    value: item.nationality,
+                                    child: Text(item.nationality),
                                   );
                                 }).toList(),
+                                // items: <String>['Indonesia', 'Korea Selatan', 'Palestina']
+                                //     .map((String value) {
+                                //   return DropdownMenuItem<String>(
+                                //     value: value,
+                                //     child: Text(value),
+                                //   );
+                                // }).toList(),
                               ),
                               Card(
                                 elevation: 4.0,
@@ -409,7 +421,7 @@ class _MyAppState extends State<MyApp> {
                                             width: 5.0,
                                           ),
                                           Text(
-                                            '829 ',
+                                            totalByNationality.toString()+' ',
                                             style: TextStyle(
                                               fontSize: 32.0,
                                               fontWeight: FontWeight.bold,
