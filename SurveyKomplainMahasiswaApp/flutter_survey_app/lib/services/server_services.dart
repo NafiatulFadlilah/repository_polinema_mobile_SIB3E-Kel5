@@ -27,7 +27,7 @@ class ServerService {
       return [];
     }
   }
-
+  
   Future<List<Survey>> getShowData() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data';
@@ -66,7 +66,7 @@ class ServerService {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_gender';
     try{
-      http.Response response = await http.get(Uri.parse(baseUrl!));
+      http.Response response = await  http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
         List byGender = jsonDecode(response.body);

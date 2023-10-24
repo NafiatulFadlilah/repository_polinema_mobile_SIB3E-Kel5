@@ -88,8 +88,8 @@ class _DetailPageState extends State<DetailPage> {
                       (index) => DataRow(
                         cells: <DataCell>[
                           DataCell(Text('${(_currentPage - 1) * _rowsPerPage + index + 1}')),
-                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index + 1].genre)),
-                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index + 1].reports)),
+                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index].genre)),
+                          DataCell(Text(snapshot.data![(_currentPage - 1) * _rowsPerPage + index].reports)),
                         ],
                       ),
                     ),
