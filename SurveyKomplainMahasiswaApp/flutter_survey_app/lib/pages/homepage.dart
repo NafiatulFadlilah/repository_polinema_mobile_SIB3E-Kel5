@@ -52,17 +52,18 @@ class _MyAppState extends State<MyApp> {
     List surveyByCat = [];
     surveyByCat = (await service!.getShowDataByFactor());
     if(selectedProblemFactor == 'Sumberdaya dan\nDukungan Akademik'){
-      var genre = 'Academic Support and Resources';
-      var total = surveyByCat.firstWhere((total) => total['genre'] == genre);
-      surveysCount = total;
+      problemCount = surveyByCat[int.parse('total')];
+      // var genre = 'Academic Support and Resources';
+      // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
+      // problemCount = total;
       // print(surveyByCat[int.parse('total')]);
     } else if (selectedProblemFactor == 'Layanan Kantin dan Makanan') {
-      var genre = 'Food and Cantines';
-      var total = surveyByCat.firstWhere((total) => total['genre'] == genre);
-      surveysCount = total;
+      // var genre = 'Food and Cantines';
+      // int total = surveyByCat.firstWhere((total) => total['genre'] == genre, orElse: () => 0);
+      // problemCount = total;
     } else {
-      var total = 0;
-      surveysCount = total;
+      // var total = 0;
+      // surveysCount = total;
     }
   }
 

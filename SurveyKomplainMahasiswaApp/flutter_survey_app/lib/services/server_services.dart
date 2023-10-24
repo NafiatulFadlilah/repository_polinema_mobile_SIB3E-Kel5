@@ -51,17 +51,17 @@ class ServerService {
     }
   }
 
-  Future<List<Survey>> getShowDataByFactor() async {
+  Future<List> getShowDataByFactor() async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_factor';
     try{
       http.Response response = await http.get(Uri.parse(baseUrl!));
       if (response.statusCode == HttpStatus.ok) {
         print('s');
-        List<Survey> surveys = [];
+        List surveys = [];
         for (var item in jsonDecode(response.body)) {
           print(item);
-          surveys.add(Survey.fromJson(item));
+          surveys.add(item);
         }
         return surveys;
       } else {
