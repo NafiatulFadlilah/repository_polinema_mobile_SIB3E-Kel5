@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_survey_app/models/by_gender.dart';
 import 'package:flutter_survey_app/models/by_nationality.dart';
 import 'package:flutter_survey_app/pages/detail_page.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class MyApp extends StatefulWidget {
   @override
@@ -70,6 +73,16 @@ class _MyAppState extends State<MyApp> {
     problemCount = item["total"];
   }
 
+  Future<List<ByGender>> getDataByGender() async{
+    byGender = (await service!.getShowDataByGender());
+    return byGender;
+  }
+
+  Future<List<ByNationality>> getDataByNationality() async{
+    byNationality = (await service!.getShowDataByNationality());
+    return byNationality;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,6 +97,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                //bag total survey
                 Card(
                   color: Colors.white,
                   elevation: 4.0,
@@ -160,6 +174,7 @@ class _MyAppState extends State<MyApp> {
                 SizedBox(
                   height: 30.0,
                 ),
+                //bag by faktor
                 Card(
                   elevation: 4.0,
                   child: Padding(
@@ -237,6 +252,7 @@ class _MyAppState extends State<MyApp> {
                 SizedBox(
                   height: 30.0,
                 ),
+                //bag jk dan country
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -257,7 +273,24 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                               SizedBox(
-                                width: 10.0,
+                                width: 2.0,
+                              ),
+                              FutureBuilder(
+                                future: getDataByGender(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    return Column(
+                                      children: [
+                                        SizedBox(height: 200, child: viewGenderGraph(byGender: snapshot.data!)),
+                                      ],
+                                    );
+                                  }else{
+                                    return Center(child: CircularProgressIndicator());
+                                  }
+                                }
+                              ),
+                              SizedBox(
+                                width: 2.0,
                               ),
                               DropdownButton<String>(
                                 value: selectedGender,
@@ -332,7 +365,24 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                               SizedBox(
-                                height: 2.0,
+                                width: 2.0,
+                              ),
+                              FutureBuilder(
+                                future: getDataByNationality(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    return Column(
+                                      children: [
+                                        SizedBox(height: 200, child: viewNationalityGraph(byNationality: snapshot.data!)),
+                                      ],
+                                    );
+                                  }else{
+                                    return Center(child: CircularProgressIndicator());
+                                  }
+                                }
+                              ),
+                              SizedBox(
+                                width: 2.0,
                               ),
                               DropdownButton<String>(
                                 value: selectedCountry,
@@ -392,6 +442,7 @@ class _MyAppState extends State<MyApp> {
                 SizedBox(
                   height: 30.0,
                 ),
+                //rata2 umur dan ipk
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -483,6 +534,75 @@ class _MyAppState extends State<MyApp> {
           ),
         ]),
       ),
+    );
+  }
+
+}
+// grafik chart gender
+class viewGenderGraph extends StatelessWidget {
+  final List<ByGender> byGender;
+
+  viewGenderGraph({required this.byGender});
+
+  @override
+  Widget build(BuildContext context) {
+    List<charts.Series<ByGender, String>> series = [
+      charts.Series(
+        id: 'ByGender',
+        data: byGender,
+        domainFn: (ByGender d, _) => d.gender,
+        measureFn: (ByGender d, _) => d.total,
+        labelAccessorFn: (ByGender row, _) => '${row.gender == "M" ? "Laki-laki" : "Perempuan"}',
+      )
+    ];
+
+    return charts.PieChart<String>(
+      series,
+      animate: true,
+      defaultRenderer: charts.ArcRendererConfig(
+        arcRendererDecorators: [
+          charts.ArcLabelDecorator(),
+        ],
+      ),
+    );
+  }
+}
+// grafik chart gender
+class viewNationalityGraph extends StatelessWidget {
+  final List<ByNationality> byNationality;
+
+  viewNationalityGraph({required this.byNationality});
+
+  @override
+  Widget build(BuildContext context) {
+    Random random = Random();
+
+    // buat fungsi untuk mengembalikan warna acak dari Colors.primaries
+    charts.Color randomColor() {
+      return charts.ColorUtil.fromDartColor(
+          Colors.primaries[random.nextInt(Colors.primaries.length)]);
+    }
+    List<charts.Series<ByNationality, String>> series = [
+      charts.Series(
+        id: 'ByNationality',
+        data: byNationality,
+        domainFn: (ByNationality d, _) => d.nationality,
+        measureFn: (ByNationality d, _) => d.total,
+        labelAccessorFn: (ByNationality row, _) => '${row.nationality}',
+        colorFn: (ByNationality d, _) => randomColor(),
+      )
+    ];
+
+    return charts.PieChart<String>(
+      series,
+      animate: true,
+      defaultRenderer: charts.ArcRendererConfig(
+        arcWidth: 60,
+        arcRendererDecorators: [
+          charts.ArcLabelDecorator(),
+        ],
+      ),
+      
     );
   }
 }
