@@ -35,7 +35,7 @@ Flowchart tadi bisa ngebantu pengguna buat memahami alur dari aplikasi mobile un
 | Foto | Nama Lengkap | GitHub | Peran |
 |:----:|:------------:|:------:|:-----:|
 | <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 1" style="width:100px; height:100px; border-radius:50%;"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
-| <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 2" style="width:100px; height:100px; border-radius:50%;"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
+| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710073-9pkTX.jpeg" alt="Foto 2" style="width:100px; height:100px; border-radius:50%;"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
 | <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 3" style="width:100px; height:100px; border-radius:50%;"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | Design UI dan Frontend Flutter |
 | <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="Foto 4" style="width:100px; height:100px; border-radius:50%;"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem |
 
