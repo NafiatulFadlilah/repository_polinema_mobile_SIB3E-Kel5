@@ -6,6 +6,7 @@ import 'package:flutter_survey_app/models/by_nationality.dart';
 import 'package:flutter_survey_app/pages/detail_page.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -31,6 +32,41 @@ class _MyAppState extends State<MyApp> {
   String selectedGender = 'M'; // Nilai awal dropdown gender
   String selectedCountry = 'Indonesia'; // Nilai awal dropdown country
 
+  List<Color> natChartColors = [];
+  List<double> natChartOpacities = [];
+  List<Color> jkChartColors = [];
+  List<double> jkChartOpacities = [];
+
+  late Future myInit;
+
+  Color getRandomColor() {
+    return Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  }
+
+  void changeOpacity(int index, length, String change) {
+    setState(() {
+      switch (change) {
+        case "nat":
+          natChartOpacities[index] = 1.0;
+          for (int i = 0; i < length; i++) {
+            if (i != index) {
+              natChartOpacities[i] = 0.3;
+            }
+          }
+          break;
+        case "gender":
+          jkChartOpacities[index] = 1.0;
+          for (int i = 0; i < length; i++) {
+            if (i != index) {
+              jkChartOpacities[i] = 0.3;
+            }
+          }
+          break;
+        default:
+      }
+    });
+  }
+
   Future initialize() async {
     surveys = [];
     surveys = (await service!.getAllData());
@@ -49,13 +85,20 @@ class _MyAppState extends State<MyApp> {
       totalByGender = byGender.firstWhere((item) => item.gender == selectedGender).total;
       byNationality = byNationality;
       totalByNationality = byNationality.firstWhere((item) => item.nationality == selectedCountry).total;
+      natChartColors = List.generate(byNationality.length, (index) => getRandomColor());
+      natChartOpacities = List.generate(byNationality.length, (index) => 1.0);
+      jkChartColors = List.generate(byGender.length, (index) => getRandomColor());
+      jkChartOpacities = List.generate(byGender.length, (index) => 1.0);
     });
+    changeOpacity(byNationality.indexWhere((element) => element.nationality==selectedCountry),byNationality.length,"nat");
+    changeOpacity(byGender.indexWhere((element) => element.gender==selectedGender),byGender.length,"gender");
   }
 
   @override
   void initState() {
     service = ServerService();
-    initialize();
+    // initialize();
+    myInit = initialize();
     super.initState();
   }
 
@@ -256,6 +299,7 @@ class _MyAppState extends State<MyApp> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    //jk
                     Expanded(
                       flex: 1,
                       child: Card(
@@ -276,12 +320,48 @@ class _MyAppState extends State<MyApp> {
                                 width: 2.0,
                               ),
                               FutureBuilder(
-                                future: getDataByGender(),
+                                future: myInit,
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.done) {
                                     return Column(
                                       children: [
-                                        SizedBox(height: 200, child: viewGenderGraph(byGender: snapshot.data!)),
+                                        SizedBox(
+                                          height: 200, 
+                                          child: 
+                                          PieChart(
+                                            PieChartData(
+                                              sections: List.generate(
+                                                byGender.length,
+                                                (index) => PieChartSectionData(
+                                                  color: jkChartColors[index].withOpacity(jkChartOpacities[index]),
+                                                  value: byGender[index].total/(byGender.fold(0, (sum, item) => sum + item.total))*100,
+                                                  title: '',
+                                                  radius: selectedGender == byGender[index].gender?82:78,
+                                                ),
+                                              ),
+                                              sectionsSpace: 4,
+                                              centerSpaceRadius: 5,
+                                              pieTouchData: PieTouchData(
+                                                touchCallback: (pieTouchResponse) {
+                                                  // Jika ada bagian yang dipilih
+                                                  if (pieTouchResponse.touchedSection != null) {
+                                                    int index = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                                                    if (index != -1) {
+                                                      setState(() {
+                                                        selectedGender = byGender[index].gender;
+                                                        totalByGender = byGender
+                                                            .firstWhere((item) =>
+                                                                item.gender == selectedGender)
+                                                            .total;
+                                                        changeOpacity(index,byGender.length,"gender");
+                                                      });
+                                                    }
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     );
                                   }else{
@@ -301,6 +381,7 @@ class _MyAppState extends State<MyApp> {
                                         .firstWhere((item) =>
                                             item.gender == selectedGender)
                                         .total;
+                                    changeOpacity(byGender.indexWhere((element) => element.gender==newValue),byGender.length,"gender");
                                   });
                                 },
                                 items: byGender.map((item) {
@@ -348,6 +429,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                     ),
+                    //country
                     Expanded(
                       flex: 1,
                       child: Card(
@@ -368,12 +450,47 @@ class _MyAppState extends State<MyApp> {
                                 width: 2.0,
                               ),
                               FutureBuilder(
-                                future: getDataByNationality(),
+                                future: myInit,
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.done) {
                                     return Column(
                                       children: [
-                                        SizedBox(height: 200, child: viewNationalityGraph(byNationality: snapshot.data!)),
+                                        SizedBox(
+                                          height: 200,
+                                          child: PieChart(
+                                            PieChartData(
+                                              sections: List.generate(
+                                                byNationality.length,
+                                                (index) => PieChartSectionData(
+                                                  color: natChartColors[index].withOpacity(natChartOpacities[index]),
+                                                  value: byNationality[index].total/(byNationality.fold(0, (sum, item) => sum + item.total))*100,
+                                                  title: '',
+                                                  radius: selectedCountry == byNationality[index].nationality?82:78,
+                                                ),
+                                              ),
+                                              sectionsSpace: 4,
+                                              centerSpaceRadius: 5,
+                                              pieTouchData: PieTouchData(
+                                                touchCallback: (pieTouchResponse) {
+                                                  // Jika ada bagian yang dipilih
+                                                  if (pieTouchResponse.touchedSection != null) {
+                                                    int index = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                                                    if(index != -1){
+                                                      setState(() {
+                                                        selectedCountry = byNationality[index].nationality;
+                                                        totalByNationality = byNationality
+                                                            .firstWhere((item) =>
+                                                                item.nationality == selectedCountry)
+                                                            .total;
+                                                        changeOpacity(index,byNationality.length,"nat");
+                                                      });
+                                                    }
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     );
                                   }else{
@@ -393,6 +510,7 @@ class _MyAppState extends State<MyApp> {
                                         .firstWhere((item) =>
                                             item.nationality == selectedCountry)
                                         .total;
+                                    changeOpacity(byNationality.indexWhere((element) => element.nationality==newValue),byNationality.length,"nat");
                                   });
                                 },
                                 items: byNationality.map((item) {
@@ -534,75 +652,6 @@ class _MyAppState extends State<MyApp> {
           ),
         ]),
       ),
-    );
-  }
-
-}
-// grafik chart gender
-class viewGenderGraph extends StatelessWidget {
-  final List<ByGender> byGender;
-
-  viewGenderGraph({required this.byGender});
-
-  @override
-  Widget build(BuildContext context) {
-    List<charts.Series<ByGender, String>> series = [
-      charts.Series(
-        id: 'ByGender',
-        data: byGender,
-        domainFn: (ByGender d, _) => d.gender,
-        measureFn: (ByGender d, _) => d.total,
-        labelAccessorFn: (ByGender row, _) => '${row.gender == "M" ? "Laki-laki" : "Perempuan"}',
-      )
-    ];
-
-    return charts.PieChart<String>(
-      series,
-      animate: true,
-      defaultRenderer: charts.ArcRendererConfig(
-        arcRendererDecorators: [
-          charts.ArcLabelDecorator(),
-        ],
-      ),
-    );
-  }
-}
-// grafik chart gender
-class viewNationalityGraph extends StatelessWidget {
-  final List<ByNationality> byNationality;
-
-  viewNationalityGraph({required this.byNationality});
-
-  @override
-  Widget build(BuildContext context) {
-    Random random = Random();
-
-    // buat fungsi untuk mengembalikan warna acak dari Colors.primaries
-    charts.Color randomColor() {
-      return charts.ColorUtil.fromDartColor(
-          Colors.primaries[random.nextInt(Colors.primaries.length)]);
-    }
-    List<charts.Series<ByNationality, String>> series = [
-      charts.Series(
-        id: 'ByNationality',
-        data: byNationality,
-        domainFn: (ByNationality d, _) => d.nationality,
-        measureFn: (ByNationality d, _) => d.total,
-        labelAccessorFn: (ByNationality row, _) => '${row.nationality}',
-        colorFn: (ByNationality d, _) => randomColor(),
-      )
-    ];
-
-    return charts.PieChart<String>(
-      series,
-      animate: true,
-      defaultRenderer: charts.ArcRendererConfig(
-        arcWidth: 60,
-        arcRendererDecorators: [
-          charts.ArcLabelDecorator(),
-        ],
-      ),
-      
     );
   }
 }
