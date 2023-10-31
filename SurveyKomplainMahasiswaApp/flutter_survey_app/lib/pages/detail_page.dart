@@ -13,9 +13,26 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   ServerService serverService = ServerService();
+
+  List surveys = [];
   
   int _currentPage = 1;
   int _rowsPerPage = 10;
+
+  late Future initDetail;
+  Future initialize() async {
+    surveys = (await serverService.getAllData());
+    setState(() {
+      surveys = surveys;
+    });
+  }
+
+  @override
+  void initState() {
+    serverService = ServerService();
+    initDetail = initialize();
+    super.initState();
+  }
 
   void _previousPage() {
     setState(() {
@@ -72,16 +89,16 @@ class _DetailPageState extends State<DetailPage> {
             ],
           ),
           Expanded(
-            child: FutureBuilder<List<Survey>>(
-              future: serverService.getAllData(),
+            child: FutureBuilder(
+              future: initDetail,
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.done) {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: _rowsPerPage,
                     itemBuilder: (context, index) {
-                      if(((_currentPage - 1) * _rowsPerPage + index) < snapshot.data!.length){
-                        Survey survey = snapshot.data![(_currentPage - 1) * _rowsPerPage + index];
+                      if(((_currentPage - 1) * _rowsPerPage + index) < surveys.length){
+                        Survey survey = surveys[(_currentPage - 1) * _rowsPerPage + index];
                         return ExpansionTile(
                           // expandedAlignment: Alignment.centerLeft,
                           title: Text(survey.genre),
