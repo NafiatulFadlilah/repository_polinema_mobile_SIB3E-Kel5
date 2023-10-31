@@ -464,7 +464,7 @@ class _MyAppState extends State<MyApp> {
                                                 (index) => PieChartSectionData(
                                                   color: natChartColors[index].withOpacity(natChartOpacities[index]),
                                                   value: byNationality[index].total/(byNationality.fold(0, (sum, item) => sum + item.total))*100,
-                                                  title: '',
+                                                  title: selectedCountry == byNationality[index].nationality?((byNationality[index].total/(byNationality.fold(0, (sum, item) => sum + item.total))*100).round().toString()+"%"):'',
                                                   radius: selectedCountry == byNationality[index].nationality?82:78,
                                                 ),
                                               ),
@@ -488,6 +488,12 @@ class _MyAppState extends State<MyApp> {
                                                   }
                                                 },
                                               ),
+                                              // legendData: FlLegendData(
+                                              //   showLegends: true, // Menampilkan legend
+                                              //   legendPosition: LegendPosition.bottom, // Menempatkan legend di bawah diagram
+                                              //   legendShape: BoxShape.circle, // Membuat bentuk legend menjadi lingkaran
+                                              //   legendTextStyle: TextStyle(fontSize: 14), // Mengatur ukuran teks legend
+                                              // ),
                                             ),
                                           ),
                                         ),
