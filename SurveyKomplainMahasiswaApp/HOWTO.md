@@ -9,7 +9,7 @@
 - Laravel
 - Flutter
 
-## Langkah-langkah persiapan laravel
+## Langkah-langkah persiapan Laravel
 1. Pastikan software-software yang dibutuhkan telah terinstall.
 2. Buat database baru dengan nama "**laravel_backend_survey_api**" menggunakan XAMPP dan phpMyAdmin.
 3. Masuk ke terminal repository ini dan pindah ke path laravel menggunakan perintah:
@@ -41,7 +41,7 @@
     php artisan serve --host=0.0.0.0
     ```
 
-## Langkah-langkah persiapan laravel
+## Langkah-langkah persiapan Flutter
 1. Masuk ke terminal Baru dan pindah ke path flutter menggunakan perintah:
     ```bash
     cd .\SurveyKomplainMahasiswaApp\flutter_survey_app\
