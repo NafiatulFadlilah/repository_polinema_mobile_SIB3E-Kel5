@@ -295,16 +295,16 @@ class _MyAppState extends State<MyApp> {
                 SizedBox(
                   height: 30.0,
                 ),
-                //bag jk dan country
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+
+                //untuk bagian chart jk dan country
+                Column(
+                  //mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //jk
-                    Expanded(
-                      flex: 1,
-                      child: Card(
-                        elevation: 4.0,
-                        child: Padding(
+                    //chart jk
+                    Card(
+                      elevation: 4.0,
+                      child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -428,11 +428,9 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                       ),
-                    ),
-                    //country
-                    Expanded(
-                      flex: 1,
-                      child: Card(
+
+                    //bagian chart country
+                      Card(
                         elevation: 4.0,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -560,9 +558,10 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
+
+
                 SizedBox(
                   height: 30.0,
                 ),
