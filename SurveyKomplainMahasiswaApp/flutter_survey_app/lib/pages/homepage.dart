@@ -82,16 +82,28 @@ class _MyAppState extends State<MyApp> {
       surveys = surveys;
       surveysByFactor = surveysByFactor;
       byGender = byGender;
-      totalByGender = byGender.firstWhere((item) => item.gender == selectedGender).total;
+      totalByGender =
+          byGender.firstWhere((item) => item.gender == selectedGender).total;
       byNationality = byNationality;
-      totalByNationality = byNationality.firstWhere((item) => item.nationality == selectedCountry).total;
-      natChartColors = List.generate(byNationality.length, (index) => getRandomColor());
+      totalByNationality = byNationality
+          .firstWhere((item) => item.nationality == selectedCountry)
+          .total;
+      natChartColors =
+          List.generate(byNationality.length, (index) => getRandomColor());
       natChartOpacities = List.generate(byNationality.length, (index) => 1.0);
-      jkChartColors = List.generate(byGender.length, (index) => getRandomColor());
+      jkChartColors =
+          List.generate(byGender.length, (index) => getRandomColor());
       jkChartOpacities = List.generate(byGender.length, (index) => 1.0);
     });
-    changeOpacity(byNationality.indexWhere((element) => element.nationality==selectedCountry),byNationality.length,"nat");
-    changeOpacity(byGender.indexWhere((element) => element.gender==selectedGender),byGender.length,"gender");
+    changeOpacity(
+        byNationality
+            .indexWhere((element) => element.nationality == selectedCountry),
+        byNationality.length,
+        "nat");
+    changeOpacity(
+        byGender.indexWhere((element) => element.gender == selectedGender),
+        byGender.length,
+        "gender");
   }
 
   @override
@@ -116,12 +128,12 @@ class _MyAppState extends State<MyApp> {
     problemCount = item["total"];
   }
 
-  Future<List<ByGender>> getDataByGender() async{
+  Future<List<ByGender>> getDataByGender() async {
     byGender = (await service!.getShowDataByGender());
     return byGender;
   }
 
-  Future<List<ByNationality>> getDataByNationality() async{
+  Future<List<ByNationality>> getDataByNationality() async {
     byNationality = (await service!.getShowDataByNationality());
     return byNationality;
   }
@@ -132,7 +144,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Main Page'),
-          backgroundColor: Colors.blue,
+          backgroundColor: Color.fromARGB(255, 0, 88, 160),
         ),
         body: ListView(children: [
           Padding(
@@ -296,312 +308,329 @@ class _MyAppState extends State<MyApp> {
                   height: 30.0,
                 ),
 
-
-                //untuk bagian chart jk dan country
+                //untuk bagian chart jk dan
                 Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //chart jk
+                    // Chart JK
                     Card(
                       elevation: 4.0,
                       child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Jumlah berdasarkan jenis kelamin',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Jumlah berdasarkan jenis kelamin',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(
-                                width: 2.0,
-                              ),
-                              FutureBuilder(
-                                future: myInit,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.done) {
-                                    return Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 200, 
-                                          child: 
-                                          PieChart(
-                                            PieChartData(
-                                              sections: List.generate(
-                                                byGender.length,
-                                                (index) => PieChartSectionData(
-                                                  color: jkChartColors[index].withOpacity(jkChartOpacities[index]),
-                                                  value: byGender[index].total/(byGender.fold(0, (sum, item) => sum + item.total))*100,
-                                                  title: '',
-                                                  radius: selectedGender == byGender[index].gender?82:78,
-                                                ),
+                            ),
+                            SizedBox(
+                              width: 2.0,
+                            ),
+                            FutureBuilder(
+                              future: myInit,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 200,
+                                        child: PieChart(
+                                          PieChartData(
+                                            sections: List.generate(
+                                              byGender.length,
+                                              (index) => PieChartSectionData(
+                                                color: jkChartColors[index]
+                                                    .withOpacity(
+                                                        jkChartOpacities[
+                                                            index]),
+                                                value: byGender[index].total /
+                                                    (byGender.fold(
+                                                        0,
+                                                        (sum, item) =>
+                                                            sum + item.total)) *
+                                                    100,
+                                                title: '',
+                                                radius: selectedGender ==
+                                                        byGender[index].gender
+                                                    ? 82
+                                                    : 78,
                                               ),
-                                              sectionsSpace: 4,
-                                              centerSpaceRadius: 5,
-                                              pieTouchData: PieTouchData(
-                                                touchCallback: (pieTouchResponse) {
-                                                  // Jika ada bagian yang dipilih
-                                                  if (pieTouchResponse.touchedSection != null) {
-                                                    int index = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                                                    if (index != -1) {
-                                                      setState(() {
-                                                        selectedGender = byGender[index].gender;
-                                                        totalByGender = byGender
-                                                            .firstWhere((item) =>
-                                                                item.gender == selectedGender)
-                                                            .total;
-                                                        changeOpacity(index,byGender.length,"gender");
-                                                      });
-                                                    }
+                                            ),
+                                            sectionsSpace: 4,
+                                            centerSpaceRadius: 5,
+                                            pieTouchData: PieTouchData(
+                                              touchCallback:
+                                                  (pieTouchResponse) {
+                                                if (pieTouchResponse
+                                                        .touchedSection !=
+                                                    null) {
+                                                  int index = pieTouchResponse
+                                                      .touchedSection!
+                                                      .touchedSectionIndex;
+                                                  if (index != -1) {
+                                                    setState(() {
+                                                      selectedGender =
+                                                          byGender[index]
+                                                              .gender;
+                                                      totalByGender = byGender
+                                                          .firstWhere((item) =>
+                                                              item.gender ==
+                                                              selectedGender)
+                                                          .total;
+                                                      changeOpacity(
+                                                          index,
+                                                          byGender.length,
+                                                          "gender");
+                                                    });
                                                   }
-                                                },
-                                              ),
+                                                }
+                                              },
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  }else{
-                                    return Center(child: CircularProgressIndicator());
-                                  }
-                                }
-                              ),
-                              SizedBox(
-                                width: 2.0,
-                              ),
-                              DropdownButton<String>(
-                                value: selectedGender,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedGender = newValue!;
-                                    totalByGender = byGender
-                                        .firstWhere((item) =>
-                                            item.gender == selectedGender)
-                                        .total;
-                                    changeOpacity(byGender.indexWhere((element) => element.gender==newValue),byGender.length,"gender");
-                                  });
-                                },
-                                items: byGender.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item.gender,
-                                    child: Text(item.gender == "M"
-                                        ? "Laki-laki"
-                                        : "Perempuan"),
-                                  );
-                                }).toList(),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 4.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
+                                      ),
+                                      // Legend for JK Chart
                                       Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 5.0,
-                                          ),
-                                          Text(
-                                            totalByGender.toString() + ' ',
-                                            style: TextStyle(
-                                              fontSize: 32.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Orang',
-                                            style: TextStyle(
-                                              fontSize: 10.0,
-                                            ),
-                                          ),
-                                        ],
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: byGender.map((item) {
+                                          return Row(
+                                            children: [
+                                              Container(
+                                                width: 10,
+                                                height: 10,
+                                                color: jkChartColors[
+                                                    byGender.indexOf(item)],
+                                              ),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                item.gender == "M"
+                                                    ? "Laki-laki"
+                                                    : "Perempuan",
+                                              ),
+                                            ],
+                                          );
+                                        }).toList(),
                                       ),
                                     ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                                  );
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
+                    ),
 
-                    //bagian chart country
-                      Card(
-                        elevation: 4.0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Jumlah berdasarkan negara asal',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    // Chart Country
+                    Card(
+                      elevation: 4.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Jumlah berdasarkan negara asal',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(
-                                width: 2.0,
-                              ),
-                              FutureBuilder(
-                                future: myInit,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.done) {
-                                    return Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 200,
-                                          child: PieChart(
-                                            PieChartData(
-                                              sections: List.generate(
-                                                byNationality.length,
-                                                (index) => PieChartSectionData(
-                                                  color: natChartColors[index].withOpacity(natChartOpacities[index]),
-                                                  value: byNationality[index].total/(byNationality.fold(0, (sum, item) => sum + item.total))*100,
-                                                  title: selectedCountry == byNationality[index].nationality?((byNationality[index].total/(byNationality.fold(0, (sum, item) => sum + item.total))*100).round().toString()+"%"):'',
-                                                  radius: selectedCountry == byNationality[index].nationality?82:78,
-                                                ),
-                                              ),
-                                              sectionsSpace: 4,
-                                              centerSpaceRadius: 5,
-                                              pieTouchData: PieTouchData(
-                                                touchCallback: (pieTouchResponse) {
-                                                  // Jika ada bagian yang dipilih
-                                                  if (pieTouchResponse.touchedSection != null) {
-                                                    int index = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                                                    if(index != -1){
-                                                      setState(() {
-                                                        selectedCountry = byNationality[index].nationality;
-                                                        totalByNationality = byNationality
-                                                            .firstWhere((item) =>
-                                                                item.nationality == selectedCountry)
-                                                            .total;
-                                                        changeOpacity(index,byNationality.length,"nat");
-                                                      });
-                                                    }
-                                                  }
-                                                },
-                                              ),
-                                              // legendData: FlLegendData(
-                                              //   showLegends: true, // Menampilkan legend
-                                              //   legendPosition: LegendPosition.bottom, // Menempatkan legend di bawah diagram
-                                              //   legendShape: BoxShape.circle, // Membuat bentuk legend menjadi lingkaran
-                                              //   legendTextStyle: TextStyle(fontSize: 14), // Mengatur ukuran teks legend
-                                              // ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }else{
-                                    return Center(child: CircularProgressIndicator());
-                                  }
-                                }
-                              ),
-                              SizedBox(
-                                width: 2.0,
-                              ),
-                              DropdownButton<String>(
-                                value: selectedCountry,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedCountry = newValue!;
-                                    totalByNationality = byNationality
-                                        .firstWhere((item) =>
-                                            item.nationality == selectedCountry)
-                                        .total;
-                                    changeOpacity(byNationality.indexWhere((element) => element.nationality==newValue),byNationality.length,"nat");
-                                  });
-                                },
-                                items: byNationality.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item.nationality,
-                                    child: Text(item.nationality),
-                                  );
-                                }).toList(),
-                              ),
-                              Card(
-                                elevation: 4.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
+                            ),
+                            SizedBox(
+                              width: 2.0,
+                            ),
+                            FutureBuilder(
+                              future: myInit,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return Column(
                                     children: [
                                       Row(
                                         children: [
-                                          SizedBox(
-                                            width: 5.0,
-                                          ),
-                                          Text(
-                                            totalByNationality.toString() + ' ',
-                                            style: TextStyle(
-                                              fontSize: 32.0,
-                                              fontWeight: FontWeight.bold,
+                                          Expanded(
+                                            flex: 2,
+                                            child: SizedBox(
+                                              height: 200,
+                                              width: 300,
+                                              child: PieChart(
+                                                PieChartData(
+                                                  sections: List.generate(
+                                                    byNationality.length,
+                                                    (index) =>
+                                                        PieChartSectionData(
+                                                      color: natChartColors[
+                                                              index]
+                                                          .withOpacity(
+                                                              natChartOpacities[
+                                                                  index]),
+                                                      value: byNationality[
+                                                                  index]
+                                                              .total /
+                                                          (byNationality.fold(
+                                                              0,
+                                                              (sum, item) =>
+                                                                  sum +
+                                                                  item.total)) *
+                                                          100,
+                                                      title: selectedCountry ==
+                                                              byNationality[
+                                                                      index]
+                                                                  .nationality
+                                                          ? ((byNationality[index]
+                                                                          .total /
+                                                                      (byNationality.fold(
+                                                                          0,
+                                                                          (sum, item) =>
+                                                                              sum +
+                                                                              item.total)) *
+                                                                      100)
+                                                                  .round()
+                                                                  .toString() +
+                                                              "%")
+                                                          : '',
+                                                      radius: selectedCountry ==
+                                                              byNationality[
+                                                                      index]
+                                                                  .nationality
+                                                          ? 82
+                                                          : 78,
+                                                    ),
+                                                  ),
+                                                  sectionsSpace: 4,
+                                                  centerSpaceRadius: 5,
+                                                  pieTouchData: PieTouchData(
+                                                    touchCallback:
+                                                        (pieTouchResponse) {
+                                                      if (pieTouchResponse
+                                                              .touchedSection !=
+                                                          null) {
+                                                        int index = pieTouchResponse
+                                                            .touchedSection!
+                                                            .touchedSectionIndex;
+                                                        if (index != -1) {
+                                                          setState(() {
+                                                            selectedCountry =
+                                                                byNationality[
+                                                                        index]
+                                                                    .nationality;
+                                                            totalByNationality =
+                                                                byNationality
+                                                                    .firstWhere((item) =>
+                                                                        item.nationality ==
+                                                                        selectedCountry)
+                                                                    .total;
+                                                            changeOpacity(
+                                                                index,
+                                                                byNationality
+                                                                    .length,
+                                                                "nat");
+                                                          });
+                                                        }
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            'Orang',
-                                            style: TextStyle(
-                                              fontSize: 10.0,
+                                          SizedBox(
+                                            width: 25.0,
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Column(
+                                              children:
+                                                  byNationality.map((item) {
+                                                return Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 10,
+                                                      height: 10,
+                                                      color: natChartColors[
+                                                          byNationality
+                                                              .indexOf(item)],
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Text(item.nationality),
+                                                  ],
+                                                );
+                                              }).toList(),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                                  );
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
+                    ),
                   ],
                 ),
-
 
                 SizedBox(
                   height: 30.0,
                 ),
-                //rata2 umur dan ipk
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      flex: 1,
                       child: Card(
-                        color: Color.fromARGB(255, 1, 28, 85),
+                        color: const Color.fromARGB(255, 10, 59, 99), // Warna latar belakang
                         elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Membuat sudut kartu melengkung
+                        ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Container(
                               color: Colors.yellow, // Garis kuning pemisah
                               height: 2.0,
                               margin: EdgeInsets.symmetric(vertical: 8.0),
                             ),
-                            Center(
-                              child: Text(
-                                'Rata-rata Umur',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Warna teks putih
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  'Rata-rata Umur',
+                                  style: TextStyle(
+                                    fontSize:
+                                        18.0, // Ukuran teks yang lebih besar
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 6.0,
-                            ),
-                            Center(
-                              child: Text(
-                                avgAge.round().toString(),
-                                style: TextStyle(
-                                  fontSize: 32.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Warna teks putih
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  avgAge.round().toString(),
+                                  style: TextStyle(
+                                    fontSize:
+                                        36.0, // Ukuran teks yang lebih besar
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             )
@@ -610,39 +639,46 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                     Expanded(
-                      flex: 1,
                       child: Card(
-                        color: Color.fromARGB(
-                            255, 1, 28, 85), // Warna latar belakang biru
+                        color: const Color.fromARGB(255, 10, 59, 99), // Warna latar belakang
                         elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Membuat sudut kartu melengkung
+                        ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Container(
                               color: Colors.yellow, // Garis kuning pemisah
                               height: 2.0,
                               margin: EdgeInsets.symmetric(vertical: 8.0),
                             ),
-                            Center(
-                              child: Text(
-                                'Rata-rata IPK',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Warna teks putih
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  'Rata-rata IPK',
+                                  style: TextStyle(
+                                    fontSize:
+                                        18.0, // Ukuran teks yang lebih besar
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Center(
-                              child: Text(
-                                avgGPA.toStringAsFixed(2),
-                                style: TextStyle(
-                                  fontSize: 32.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white, // Warna teks putih
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  avgGPA.toStringAsFixed(2),
+                                  style: TextStyle(
+                                    fontSize:
+                                        36.0, // Ukuran teks yang lebih besar
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             )
@@ -651,7 +687,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ],
-                ),
+                )
               ],
             ),
           ),
