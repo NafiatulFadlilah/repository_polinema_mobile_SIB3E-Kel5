@@ -5,7 +5,6 @@ import 'package:flutter_survey_app/models/by_gender.dart';
 import 'package:flutter_survey_app/models/by_nationality.dart';
 import 'package:flutter_survey_app/pages/detail_page.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 
 class MyApp extends StatefulWidget {
