@@ -29,6 +29,42 @@ class ServerService {
       return [];
     }
   }
+  Future<List<Survey>> getAllDataRange(limit,offset) async {
+    await dotenv.load(fileName: ".env");
+    final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'range_data?limit=$limit&offset=$offset';
+    try {
+      http.Response response =
+          await http.get(Uri.parse(baseUrl!));
+      if (response.statusCode == HttpStatus.ok) {
+        List<Survey> surveys = [];
+        for (var item in jsonDecode(response.body)) {
+          surveys.add(Survey.fromJson(item));
+        }
+        return surveys;
+      } else {
+        throw Exception('Failed to load surveys');
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+  Future<int> getAllDataCount() async {
+    await dotenv.load(fileName: ".env");
+    final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'count_data';
+    try {
+      http.Response response =
+          await http.get(Uri.parse(baseUrl!));
+      if (response.statusCode == HttpStatus.ok) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to load surveys');
+      }
+    } catch (e) {
+      print(e);
+      return 0;
+    }
+  }
   
   Future<List<Survey>> getShowData() async {
     await dotenv.load(fileName: ".env");

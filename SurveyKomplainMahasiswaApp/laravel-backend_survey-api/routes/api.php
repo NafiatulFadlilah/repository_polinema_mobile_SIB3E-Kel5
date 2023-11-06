@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get("all_data",[APIController::class,"index"]);
+Route::get("count_data",[APIController::class,"showCount"]);
+Route::get("range_data",[APIController::class,"showRange"]);
 Route::get("show_data",[APIController::class,"show"]);
 Route::get("show_data/by_factor",[APIController::class,"showByFactor"]);
 Route::get("show_data/by_gender",[APIController::class,"showByGender"]);

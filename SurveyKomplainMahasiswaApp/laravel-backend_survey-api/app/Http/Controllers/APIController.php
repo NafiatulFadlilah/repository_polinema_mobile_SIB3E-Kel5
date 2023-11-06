@@ -14,6 +14,18 @@ class APIController extends Controller
         $data = StudentComplaintSurvey::all();
         return $data;
     }
+    public function showCount()
+    {
+        // Detail hasil survey semua responden
+        $data = StudentComplaintSurvey::all()->count();
+        return $data;
+    }
+    public function showRange(Request $request)
+    {
+        // Detail hasil survey semua responden
+        $data = StudentComplaintSurvey::offset($request->offset)->limit($request->limit)->get();
+        return $data;
+    }
 
     public function show(Request $request)
     {
