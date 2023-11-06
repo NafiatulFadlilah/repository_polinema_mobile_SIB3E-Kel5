@@ -20,8 +20,8 @@ Flowchart tadi bisa ngebantu pengguna buat memahami alur dari aplikasi mobile un
 
 ## Dokumentasi
 #### 1. Homepage (Halaman Utama)
-<img src="flutter_survey_app/img/homepage1.png" alt="Detailpage" style="width: 300px; border: 0px solid #000;">
-<img src="flutter_survey_app/img/homepage2.png" alt="Detailpage" style="width: 300px; border: 0px solid #000;">
+<img src="flutter_survey_app/img/homepage1_v2.png" alt="Detailpage" style="width: 300px; border: 0px solid #000;">
+<img src="flutter_survey_app/img/homepage2_v2.png" alt="Detailpage" style="width: 300px; border: 0px solid #000;">
 
 <p style="text-align: justify;">Gambar di atas merupakan homepage dari aplikasi mobile untuk melihat hasil survey. Di halaman ini pengguna bisa melihat dashboard yang berisi beberapa informasi di antaranya ada Total Surveys, Sum of Problem Factors, Sum of Respondents Based on Gender, Sum of Respondents Based on Country of Origin, Average of Age, dan Average of GPA.</p>
 
@@ -35,8 +35,8 @@ Flowchart tadi bisa ngebantu pengguna buat memahami alur dari aplikasi mobile un
 
 | Foto | Nama Lengkap | GitHub | Peran |
 |:----:|:------------:|:------:|:-----:|
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710140-EiSw6.jpeg" alt="Foto 1" style="width:100%; height:100px; border-radius:50%;"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710073-9pkTX.jpeg" alt="Foto 2" style="width:100%; height:100px; border-radius:50%;"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
-| <img src="https://media.licdn.com/dms/image/D5603AQH0XquxsrmMTQ/profile-displayphoto-shrink_800_800/0/1674222566598?e=1704326400&v=beta&t=jqGSDulx2f-3VHXYQskX-mWwdaidGCcPBETEPLZ7jlE" alt="Foto 3" style="width:100%; height:100px; border-radius:50%;"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | Design UI dan Frontend Flutter |
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710030-e8pLR.jpeg" alt="Foto 4" style="width:100%; height:100px; border-radius:50%;"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem dan Frontend Flutter |
+| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710140-EiSw6.jpeg" alt="Foto 1" width="100px" height="100%"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
+| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710073-9pkTX.jpeg" alt="Foto 2" width="100px" height="100%"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
+| <img src="https://media.licdn.com/dms/image/D5603AQH0XquxsrmMTQ/profile-displayphoto-shrink_800_800/0/1674222566598?e=1704326400&v=beta&t=jqGSDulx2f-3VHXYQskX-mWwdaidGCcPBETEPLZ7jlE" alt="Foto 3" width="100px" height="100%"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | Design UI dan Frontend Flutter |
+| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710030-e8pLR.jpeg" alt="Foto 4" width="100px" height="100%"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem dan Frontend Flutter |
 

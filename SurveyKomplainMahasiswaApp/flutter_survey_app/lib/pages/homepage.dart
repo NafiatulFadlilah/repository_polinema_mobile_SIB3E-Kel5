@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ServerService? service;
-  List surveys = [];
+  // List surveys = [];
   // List byFactor = [];
   List<ByGender> byGender = [];
   List<ByNationality> byNationality = [];
@@ -39,7 +39,8 @@ class _MyAppState extends State<MyApp> {
   late Future myInit;
 
   Color getRandomColor() {
-    return Colors.primaries[Random().nextInt(Colors.primaries.length)];
+    // return Colors.primaries[Random().nextInt(Colors.primaries.length)];
+    return Color((Random().nextDouble() * 0xFFFFFF).toInt());
   }
 
   void changeOpacity(int index, length, String change) {
@@ -67,8 +68,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future initialize() async {
-    surveys = [];
-    surveys = (await service!.getAllData());
+    // surveys = [];
+    // surveys = (await service!.getAllData());
+    surveysCount = (await service!.getAllDataCount());
     byGender = (await service!.getShowDataByGender());
     byNationality = (await service!.getShowDataByNationality());
     surveysByFactor = await service!.getShowDataByFactor();
@@ -77,8 +79,8 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       selectedProblemFactor = surveysByFactor[0]["genre"];
       problemCount = surveysByFactor[0]["total"];
-      surveysCount = surveys.length;
-      surveys = surveys;
+      surveysCount = surveysCount;
+      // surveys = surveys;
       surveysByFactor = surveysByFactor;
       byGender = byGender;
       totalByGender =
@@ -352,11 +354,15 @@ class _MyAppState extends State<MyApp> {
                                                         (sum, item) =>
                                                             sum + item.total)) *
                                                     100,
-                                                title: '',
+                                                title: selectedGender == byGender[index].gender
+                                                  ? ((byGender[index].total / (byGender.fold(0,(sum, item) => sum + item.total)) * 100).round().toString()+"%")
+                                                  : '',
                                                 radius: selectedGender ==
                                                         byGender[index].gender
                                                     ? 82
                                                     : 78,
+                                                titleStyle: TextStyle(fontWeight: FontWeight.bold),
+                                                titlePositionPercentageOffset: 0.3
                                               ),
                                             ),
                                             sectionsSpace: 4,
@@ -402,8 +408,8 @@ class _MyAppState extends State<MyApp> {
                                               Container(
                                                 width: 10,
                                                 height: 10,
-                                                color: jkChartColors[
-                                                    byGender.indexOf(item)],
+                                                color: jkChartColors[byGender.indexOf(item)]
+                                                  .withOpacity(jkChartOpacities[byGender.indexOf(item)]),
                                               ),
                                               SizedBox(width: 5),
                                               Text(
@@ -411,6 +417,7 @@ class _MyAppState extends State<MyApp> {
                                                     ? "Laki-laki"
                                                     : "Perempuan",
                                               ),
+                                              SizedBox(width: 5),
                                             ],
                                           );
                                         }).toList(),
@@ -502,6 +509,9 @@ class _MyAppState extends State<MyApp> {
                                                                   .nationality
                                                           ? 82
                                                           : 78,
+                                                      titleStyle: TextStyle(fontWeight: FontWeight.bold),
+                                                      titlePositionPercentageOffset: (byNationality[index].total/(byNationality.fold(0,(sum,item)=>sum+item.total))*100) >= 7
+                                                      ?0.5:1.2,
                                                     ),
                                                   ),
                                                   sectionsSpace: 4,
@@ -554,9 +564,8 @@ class _MyAppState extends State<MyApp> {
                                                     Container(
                                                       width: 10,
                                                       height: 10,
-                                                      color: natChartColors[
-                                                          byNationality
-                                                              .indexOf(item)],
+                                                      color: natChartColors[byNationality.indexOf(item)]
+                                                        .withOpacity(natChartOpacities[byNationality.indexOf(item)]),
                                                     ),
                                                     SizedBox(width: 5),
                                                     Text(item.nationality),

@@ -29,7 +29,7 @@ start "LaravelSurveyAPI" cmd /c php artisan serve --host=0.0.0.0
 rem start flutter
 cd ..\flutter_survey_app\
 start cmd /c "flutter devices > devices.txt"
-pause
+timeout /t 7
 echo Pilih device yang ingin digunakan:
 set count=0
 for /f "tokens=1 delims=•" %%a in (devices.txt) do (
@@ -52,7 +52,10 @@ if %choice% geq 1 if %choice% leq %count% (
   )
   echo !iddev!
   start "FlutterAPP" cmd /c flutter run -d !iddev!
-  pause
+  :loop
+  tasklist /fi "WindowTitle eq FlutterAPP" 2>NUL | find /i /n "cmd.exe">NUL
+  rem Jika proses masih ada, maka kembali ke label loop
+  if "%ERRORLEVEL%"=="0" goto loop
 )
 
 rem end
