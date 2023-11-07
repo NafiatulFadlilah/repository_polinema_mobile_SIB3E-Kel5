@@ -67,4 +67,20 @@ class APIController extends Controller
         $data = StudentComplaintSurvey::avg('gpa');
         return $data;
     }
+    public function insertData(Request $request)
+    {
+        //
+        $save = new StudentComplaintSurvey;
+        $save->genre = $request->genre;
+        $save->reports = $request->reports;
+        $save->age = $request->age;
+        $save->gpa = $request->gpa;
+        $save->year = $request->year;
+        $save->count = $request->count;
+        $save->gender = $request->gender;
+        $save->nationality = $request->nationality;
+        $save->save();
+
+        return "Berhasil menyimpan data!!";
+    }
 }

@@ -28,3 +28,4 @@ Route::get("show_data/by_gender",[APIController::class,"showByGender"]);
 Route::get("show_data/by_nationality",[APIController::class,"showByNationality"]);
 Route::get("get_average_age",[APIController::class,"getAvgAge"]);
 Route::get("get_average_gpa",[APIController::class,"getAvgGPA"]);
+Route::post("insert_data",[APIController::class,"insertData"]);
