@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
 
   Color getRandomColor() {
     // return Colors.primaries[Random().nextInt(Colors.primaries.length)];
-    return Color((Random().nextDouble() * 0xFFFFFF).toInt());
+    return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
   }
 
   void changeOpacity(int index, length, String change) {
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           natChartOpacities[index] = 1.0;
           for (int i = 0; i < length; i++) {
             if (i != index) {
-              natChartOpacities[i] = 0.3;
+              natChartOpacities[i] = 0.5;
             }
           }
           break;
@@ -96,15 +96,15 @@ class _MyAppState extends State<MyApp> {
           List.generate(byGender.length, (index) => getRandomColor());
       jkChartOpacities = List.generate(byGender.length, (index) => 1.0);
     });
-    changeOpacity(
-        byNationality
-            .indexWhere((element) => element.nationality == selectedCountry),
-        byNationality.length,
-        "nat");
-    changeOpacity(
-        byGender.indexWhere((element) => element.gender == selectedGender),
-        byGender.length,
-        "gender");
+    // changeOpacity(
+    //     byNationality
+    //         .indexWhere((element) => element.nationality == selectedCountry),
+    //     byNationality.length,
+    //     "nat");
+    // changeOpacity(
+    //     byGender.indexWhere((element) => element.gender == selectedGender),
+    //     byGender.length,
+    //     "gender");
   }
 
   @override
@@ -344,10 +344,10 @@ class _MyAppState extends State<MyApp> {
                                             sections: List.generate(
                                               byGender.length,
                                               (index) => PieChartSectionData(
-                                                color: jkChartColors[index]
-                                                    .withOpacity(
-                                                        jkChartOpacities[
-                                                            index]),
+                                                color: jkChartColors[index],
+                                                    // .withOpacity(
+                                                    //     jkChartOpacities[
+                                                    //         index]),
                                                 value: byGender[index].total /
                                                     (byGender.fold(
                                                         0,
@@ -359,7 +359,7 @@ class _MyAppState extends State<MyApp> {
                                                   : '',
                                                 radius: selectedGender ==
                                                         byGender[index].gender
-                                                    ? 82
+                                                    ? 86
                                                     : 78,
                                                 titleStyle: TextStyle(fontWeight: FontWeight.bold),
                                                 titlePositionPercentageOffset: 0.3
@@ -386,10 +386,10 @@ class _MyAppState extends State<MyApp> {
                                                               item.gender ==
                                                               selectedGender)
                                                           .total;
-                                                      changeOpacity(
-                                                          index,
-                                                          byGender.length,
-                                                          "gender");
+                                                      // changeOpacity(
+                                                      //     index,
+                                                      //     byGender.length,
+                                                      //     "gender");
                                                     });
                                                   }
                                                 }
@@ -408,8 +408,8 @@ class _MyAppState extends State<MyApp> {
                                               Container(
                                                 width: 10,
                                                 height: 10,
-                                                color: jkChartColors[byGender.indexOf(item)]
-                                                  .withOpacity(jkChartOpacities[byGender.indexOf(item)]),
+                                                color: jkChartColors[byGender.indexOf(item)],
+                                                  // .withOpacity(jkChartOpacities[byGender.indexOf(item)]),
                                               ),
                                               SizedBox(width: 5),
                                               Text(
@@ -474,10 +474,10 @@ class _MyAppState extends State<MyApp> {
                                                     (index) =>
                                                         PieChartSectionData(
                                                       color: natChartColors[
-                                                              index]
-                                                          .withOpacity(
-                                                              natChartOpacities[
-                                                                  index]),
+                                                              index],
+                                                          // .withOpacity(
+                                                          //     natChartOpacities[
+                                                          //         index]),
                                                       value: byNationality[
                                                                   index]
                                                               .total /
@@ -507,7 +507,7 @@ class _MyAppState extends State<MyApp> {
                                                               byNationality[
                                                                       index]
                                                                   .nationality
-                                                          ? 82
+                                                          ? 86
                                                           : 78,
                                                       titleStyle: TextStyle(fontWeight: FontWeight.bold),
                                                       titlePositionPercentageOffset: (byNationality[index].total/(byNationality.fold(0,(sum,item)=>sum+item.total))*100) >= 7
@@ -537,11 +537,11 @@ class _MyAppState extends State<MyApp> {
                                                                         item.nationality ==
                                                                         selectedCountry)
                                                                     .total;
-                                                            changeOpacity(
-                                                                index,
-                                                                byNationality
-                                                                    .length,
-                                                                "nat");
+                                                            // changeOpacity(
+                                                            //     index,
+                                                            //     byNationality
+                                                            //         .length,
+                                                            //     "nat");
                                                           });
                                                         }
                                                       }
@@ -564,8 +564,8 @@ class _MyAppState extends State<MyApp> {
                                                     Container(
                                                       width: 10,
                                                       height: 10,
-                                                      color: natChartColors[byNationality.indexOf(item)]
-                                                        .withOpacity(natChartOpacities[byNationality.indexOf(item)]),
+                                                      color: natChartColors[byNationality.indexOf(item)],
+                                                        // .withOpacity(natChartOpacities[byNationality.indexOf(item)]),
                                                     ),
                                                     SizedBox(width: 5),
                                                     Text(item.nationality),
