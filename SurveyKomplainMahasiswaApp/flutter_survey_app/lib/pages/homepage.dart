@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_survey_app/models/by_gender.dart';
 import 'package:flutter_survey_app/models/by_nationality.dart';
 import 'package:flutter_survey_app/pages/detail_page.dart';
+import 'package:flutter_survey_app/pages/insert_complain.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -106,6 +107,26 @@ class _MyAppState extends State<MyApp> {
     //     byGender.length,
     //     "gender");
   }
+  Future refresh() async {
+    surveysCount = (await service!.getAllDataCount());
+    byGender = (await service!.getShowDataByGender());
+    byNationality = (await service!.getShowDataByNationality());
+    surveysByFactor = await service!.getShowDataByFactor();
+    avgAge = (await service!.getAvgAge());
+    avgGPA = (await service!.getAvgGPA());
+    setState(() {
+      surveysCount = surveysCount;
+      surveysByFactor = surveysByFactor;
+      problemCount = surveysByFactor.firstWhere((item) => item['genre'] == selectedProblemFactor)["total"];
+      byGender = byGender;
+      totalByGender =
+          byGender.firstWhere((item) => item.gender == selectedGender).total;
+      byNationality = byNationality;
+      totalByNationality = byNationality
+          .firstWhere((item) => item.nationality == selectedCountry)
+          .total;
+    });
+  }
 
   @override
   void initState() {
@@ -147,8 +168,20 @@ class _MyAppState extends State<MyApp> {
           title: Text('Main Page'),
           backgroundColor: Color.fromARGB(255, 0, 88, 160),
            actions: [
-            OutlinedButton(
-              onPressed: (){},
+            TextButton(
+                onPressed: () async {
+                  int? res = await showDialog(
+                    context: context,
+                    builder: (context) => AddDataDialog(listFactor: surveysByFactor,listGender: byGender,listNationality: byNationality)
+                  );
+                  if(res != null && res == 1){
+                    setState(() {
+                      myInit = refresh();
+                      print('Refresh Data');
+                    });
+                  }
+                  
+                },
               child: Padding(
                 padding: EdgeInsets.all(2.0),
                 child: Row(
@@ -212,13 +245,23 @@ class _MyAppState extends State<MyApp> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              surveysCount.toString() + ' ',
-                              style: TextStyle(
-                                fontSize: 38.0,
-                                color: const Color(0xFF000000),
-                                fontWeight: FontWeight.bold,
-                              ),
+                            FutureBuilder(
+                              future: myInit,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done) {
+                                  return Text(
+                                    surveysCount.toString() + ' ',
+                                    style: TextStyle(
+                                      fontSize: 38.0,
+                                      color: const Color(0xFF000000),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }else{
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              }
                             ),
                             SizedBox(
                               width: 0,
@@ -313,12 +356,22 @@ class _MyAppState extends State<MyApp> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          problemCount.toString() + ' ',
-                                          style: TextStyle(
-                                            fontSize: 35.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        FutureBuilder(
+                                          future: myInit,
+                                          builder: (context,snapshot) {
+                                            if (snapshot.connectionState ==ConnectionState.done) {
+                                              return Text(
+                                                problemCount.toString() + ' ',
+                                                style: TextStyle(
+                                                  fontSize: 35.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            }else{
+                                              return Center(
+                                                child: CircularProgressIndicator());
+                                            }
+                                          }
                                         ),
                                         Text(
                                           'Respon',
