@@ -146,6 +146,39 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Main Page'),
           backgroundColor: Color.fromARGB(255, 0, 88, 160),
+           actions: [
+            OutlinedButton(
+              onPressed: (){},
+              child: Padding(
+                padding: EdgeInsets.all(2.0),
+                child: Row(
+                  children: [
+                    Text("Tambah Data", style: TextStyle(color: Colors.white),),
+                    Icon(Icons.add, color: Colors.white,)
+                  ],
+                ),
+              )
+            )
+      // Row(
+      //   children: [
+      //     IconButton(
+      //       icon: Icon(Icons.add), // Icon yang akan menjadi tombol "Create Data"
+      //       onPressed: () {
+      //         // Tambahkan tindakan yang ingin Anda jalankan ketika tombol ditekan di sini
+      //         // Misalnya, pindah ke halaman pembuatan data.
+      //       },
+      //     ),
+      //     SizedBox(width: 4), // Jarak antara tombol dan teks
+      //     Text(
+      //       "Create Data",
+      //       style: TextStyle(
+      //         fontSize: 16, // Atur ukuran font sesuai kebutuhan
+      //         color: Colors.white, // Atur warna teks sesuai kebutuhan
+      //       ),
+      //     ),
+      //   ],
+      // ),
+    ],
         ),
         body: ListView(children: [
           Padding(
