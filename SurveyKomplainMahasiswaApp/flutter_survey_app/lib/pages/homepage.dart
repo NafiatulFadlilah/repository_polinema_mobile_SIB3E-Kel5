@@ -289,7 +289,7 @@ class _MyAppState extends State<MyApp> {
                                     onTap: () => _viewDetailPressed(context),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
+                                      children: [ 
                                         Text(
                                           'View Detail',
                                           style: TextStyle(

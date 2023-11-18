@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_survey_app/pages/survey_list.dart';
 // import 'package:flutter_survey_app/pages/detail_page.dart';
-import 'package:flutter_survey_app/pages/homepage.dart';
+// import 'package:flutter_survey_app/pages/homepage.dart';
+import 'pages/auth_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -49,7 +50,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: primarySwatch,
       ),
-      home: MyApp(),
+      home: AuthPage(),
     );
   }
 }
