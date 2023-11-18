@@ -1,0 +1,124 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\ReportData;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
+class ReportsAPIController extends Controller
+{
+    // All report data
+    public function index()
+    {
+        $reports = ReportData::with('student')->get();
+        return response()->json($reports, 200);
+    }
+
+    // Single report data by id
+    public function show($id)
+    {
+        $report = ReportData::with('student')->find($id);
+        if ($report) {
+            return response()->json($report, 200);
+        } else {
+            return response()->json(['message' => 'Report not found'], 404);
+        }
+    }
+
+    // Gambar report by id
+    public function showimg($id)
+    {
+        $report = ReportData::find($id);
+        if ($report && $report->evidence) {
+            $path = $report->evidence;
+            $file = Storage::get($path);
+            $type = Storage::mimeType($path);
+            return response($file, 200)->header('Content-Type', $type);
+        } else {
+            return response()->json(['message' => 'Image not found'], 404);
+        }
+    }
+
+    // Add report data
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nim' => 'required|exists:students_data,nim',
+            'type' => 'required',
+            'chronology' => 'required',
+            'evidence' => 'sometimes|image',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $report = new ReportData();
+        $report->nim = $request->nim;
+        $report->type = $request->type;
+        $report->chronology = $request->chronology;
+        if ($request->hasFile('evidence')) {
+            $file = $request->file('evidence');
+            $id = ReportData::latest()->first()->id ?? 0;
+            $id = $id + 1;
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = $id . $name . '.' . $extension;
+            $path = $file->storeAs('public/evidence', $filename);
+            $report->evidence = $path;
+        }
+        $report->save();
+        return response()->json(['message' => 'Report created successfully', 'data' => $report], 201);
+    }
+
+    // Update report data by id
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'nim' => 'sometimes|exists:students_data,nim',
+            'type' => 'sometimes',
+            'chronology' => 'sometimes',
+            'evidence' => 'sometimes|image',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $report = ReportData::find($id);
+        if ($report) {
+            $report->nim = $request->nim ?? $report->nim;
+            $report->type = $request->type ?? $report->type;
+            $report->chronology = $request->chronology ?? $report->chronology;
+            if ($request->hasFile('evidence')) {
+                $file = $request->file('evidence');
+                $id = $report->id;
+                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $filename = $id . $name . '.' . $extension;
+                Storage::delete($report->evidence);
+                $path = $file->storeAs('public/evidence', $filename);
+                $report->evidence = $path;
+            }
+            $report->save();
+            return response()->json(['message' => 'Report updated successfully', 'data' => $report], 200);
+        } else {
+            return response()->json(['message' => 'Report not found'], 404);
+        }
+    }
+
+    // Delete report data by id
+    // public function destroy($id)
+    // {
+    //     $report = ReportData::find($id);
+    //     if ($report) {
+    //         Storage::delete($report->evidence);
+    //         $report->delete();
+    //         return response()->json(['message' => 'Report deleted successfully'], 200);
+    //     } else {
+    //         return response()->json(['message' => 'Report not found'], 404);
+    //     }
+    // }
+}
