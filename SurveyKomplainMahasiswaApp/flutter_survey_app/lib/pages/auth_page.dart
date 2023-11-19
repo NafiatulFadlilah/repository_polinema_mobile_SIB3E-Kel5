@@ -1,5 +1,7 @@
 import 'package:flutter_survey_app/models/user.dart';
 import 'package:flutter_survey_app/pages/forgot_password_page.dart';
+// import 'package:flutter_survey_app/pages/homepage.dart';
+import 'package:flutter_survey_app/pages/selection_page.dart';
 import 'package:flutter_survey_app/services/user_services.dart';
 import 'package:flutter_survey_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
@@ -362,6 +364,7 @@ class _AuthPageState extends State<AuthPage> {
                                   }
                                   tes();
                                   login();
+                                  Navigator.push(context, MaterialPageRoute(builder: (_) => SelectionPage()));
                                 }
                               }
                             }
