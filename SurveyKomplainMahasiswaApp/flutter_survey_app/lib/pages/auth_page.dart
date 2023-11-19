@@ -1,4 +1,6 @@
+import 'package:flutter_survey_app/models/user.dart';
 import 'package:flutter_survey_app/pages/forgot_password_page.dart';
+import 'package:flutter_survey_app/services/user_services.dart';
 import 'package:flutter_survey_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,11 +14,11 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   bool checkedValue = false;
-  bool register = true;
+  bool register = false;
   List textfieldsStrings = [
     "", //firstName
     "", //lastName
-    "", //email
+    "", //email -> sementara username
     "", //password
     "", //confirmPassword
   ];
@@ -148,16 +150,16 @@ class _AuthPageState extends State<AuthPage> {
                               );
                               return '';
                             }
-                            if (!RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
-                                .hasMatch(valuemail)) {
-                              buildSnackError(
-                                'Invalid email',
-                                context,
-                                size,
-                              );
-                              return '';
-                            }
+                            // if (!RegExp(
+                            //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                            //     .hasMatch(valuemail)) {
+                            //   buildSnackError(
+                            //     'Invalid email',
+                            //     context,
+                            //     size,
+                            //   );
+                            //   return '';
+                            // }
                             return null;
                           },
                           _emailKey,
@@ -346,7 +348,20 @@ class _AuthPageState extends State<AuthPage> {
                               //validation for login
                               if (_emailKey.currentState!.validate()) {
                                 if (_passwordKey.currentState!.validate()) {
-                                  print('login');
+                                  print('loginButton');
+                                  UserService service = new UserService();
+                                  List<User> listuser = [];
+                                  Future tes() async{
+                                    listuser = (await service!.getAllData());
+                                    print("${listuser.length}people");
+                                  }
+                                  int tr = 0;
+                                  Future login() async{
+                                    tr = (await service!.login(textfieldsStrings[2],textfieldsStrings[3]));
+                                    print(tr);
+                                  }
+                                  tes();
+                                  login();
                                 }
                               }
                             }
