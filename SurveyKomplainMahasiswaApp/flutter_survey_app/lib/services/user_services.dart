@@ -27,6 +27,25 @@ class UserService {
       return [];
     }
   }
+
+  Future<User?> getStudent(nim) async {
+    await dotenv.load(fileName: ".env");
+    final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'students/' + nim;
+    try {
+      http.Response response =
+          await http.get(Uri.parse(baseUrl!));
+      if (response.statusCode == HttpStatus.ok) {
+        User user = User.fromJson(jsonDecode(response.body));
+        return user;
+      } else {
+        throw Exception('Failed to login ${response.statusCode} ${jsonDecode(response.body)}');
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<int> login(nim,pass) async {
     await dotenv.load(fileName: ".env");
     final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'students/login';
@@ -50,154 +69,7 @@ class UserService {
       return 0;
     }
   }
-  // Future<List<Survey>> getAllDataRange(limit,offset) async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'range_data?limit=$limit&offset=$offset';
-  //   try {
-  //     http.Response response =
-  //         await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       List<Survey> surveys = [];
-  //       for (var item in jsonDecode(response.body)) {
-  //         surveys.add(Survey.fromJson(item));
-  //       }
-  //       return surveys;
-  //     } else {
-  //       throw Exception('Failed to load surveys');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return [];
-  //   }
-  // }
-  // Future<int> getAllDataCount() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'count_data';
-  //   try {
-  //     http.Response response =
-  //         await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       return jsonDecode(response.body);
-  //     } else {
-  //       throw Exception('Failed to load surveys');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return 0;
-  //   }
-  // }
   
-  // Future<List<Survey>> getShowData() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data';
-  //   try{
-  //     http.Response response = await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       print('s');
-  //       List<Survey> surveys = [];
-  //       for (var item in jsonDecode(response.body)) {
-  //         surveys.add(Survey.fromJson(item));
-  //       }
-  //       return surveys;
-  //     } else {
-  //       throw Exception('Failed to load surveys');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return [];
-  //   }
-  // }
-
-  // Future<List> getShowDataByFactor() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_factor';
-  //   http.Response response = await http.get(Uri.parse(baseUrl!));
-  //   if (response.statusCode == HttpStatus.ok) {
-  //     print('s');
-  //     List data = jsonDecode(response.body);
-  //     return data;
-  //   } else {
-  //     throw Exception('Failed to load surveys');
-  //   }
-  // }
-
-  // Future<List<ByGender>> getShowDataByGender() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_gender';
-  //   try{
-  //     http.Response response = await  http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       print('s');
-  //       List<ByGender> byGender = [];
-  //       for (var item in  jsonDecode(response.body)){
-  //         byGender.add(ByGender.fromJson(item));
-  //       }
-  //       return byGender;
-  //     } else {
-  //       throw Exception('Failed to load surveys');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return [];
-  //   }
-  // }
-
-  // Future<List<ByNationality>> getShowDataByNationality() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'show_data/by_nationality';
-  //   try{
-  //     http.Response response = await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       print('s');
-  //       List<ByNationality> byNationality = [];
-  //       for (var item in jsonDecode(response.body)){
-  //         byNationality.add(ByNationality.fromJson(item));
-  //       }
-  //       return byNationality;
-  //     } else {
-  //       throw Exception('Failed to load surveys');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return [];
-  //   }
-  // }
-
-  // Future<double> getAvgAge() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'get_average_age';
-  //   try{
-  //     http.Response response = await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       print('s');
-  //       double age = double.parse(response.body);
-  //       return age;
-  //     } else {
-  //       throw Exception('Failed to load average age');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return 0;
-  //   }
-  // }
-
-  // Future<double> getAvgGPA() async {
-  //   await dotenv.load(fileName: ".env");
-  //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'get_average_gpa';
-  //   try{
-  //     http.Response response = await http.get(Uri.parse(baseUrl!));
-  //     if (response.statusCode == HttpStatus.ok) {
-  //       print('s');
-  //       double gpa = double.parse(response.body);
-  //       return gpa;
-  //     } else {
-  //       throw Exception('Failed to load average gpa');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return 0.0;
-  //   }
-  // }
   // Future<int> postNewData(String genre,String reports,int age,double gpa,int year,int count,String gender,String nationality) async {
   //   await dotenv.load(fileName: ".env");
   //   final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'insert_data';

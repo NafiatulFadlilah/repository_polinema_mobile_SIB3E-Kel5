@@ -350,21 +350,20 @@ class _AuthPageState extends State<AuthPage> {
                               //validation for login
                               if (_emailKey.currentState!.validate()) {
                                 if (_passwordKey.currentState!.validate()) {
-                                  print('loginButton');
                                   UserService service = new UserService();
-                                  List<User> listuser = [];
-                                  Future tes() async{
-                                    listuser = (await service!.getAllData());
-                                    print("${listuser.length}people");
-                                  }
-                                  int tr = 0;
+                                  User? user;
+                                  int log = 0;
                                   Future login() async{
-                                    tr = (await service!.login(textfieldsStrings[2],textfieldsStrings[3]));
-                                    print(tr);
+                                    log = (await service!.login(textfieldsStrings[2],textfieldsStrings[3]));
+                                    if(log == 1) user = await service!.getStudent(textfieldsStrings[2]);
+                                    print(log);
+                                    if(log == 1) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (_) => SelectionPage(user: user!)));
+                                    }else{
+                                      buildSnackError("Login Gagal!", context, size);
+                                    }
                                   }
-                                  tes();
                                   login();
-                                  Navigator.push(context, MaterialPageRoute(builder: (_) => SelectionPage()));
                                 }
                               }
                             }
