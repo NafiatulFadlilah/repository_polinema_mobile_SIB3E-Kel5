@@ -77,7 +77,7 @@ class ReportsAPIController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nim' => 'sometimes|exists:students_data,nim',
+            'nim' => 'required|exists:students_data,nim',
             'type' => 'sometimes',
             'chronology' => 'sometimes',
             'evidence' => 'sometimes|image',

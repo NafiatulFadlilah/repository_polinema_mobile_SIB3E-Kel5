@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_survey_app/models/user.dart';
+import 'package:flutter_survey_app/pages/form_report.dart';
 import 'package:flutter_survey_app/pages/homepage.dart';
 import 'package:flutter_survey_app/pages/splash_screen.dart';
 import 'package:flutter_survey_app/widgets/button_widget.dart';
@@ -44,8 +45,18 @@ class _SelectionPageState extends State<SelectionPage>{
                       text: 'Pengaduan Kekerasan Seksual',
                       backColor: isDarkMode ? [Colors.black, Colors.black] : const [Color(0xff92A3FD), Color(0xff9DCEFF)],
                       textColor: const [Colors.white, Colors.white],
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => MyApp()));
+                      onPressed: () async {
+                        int? res = await showDialog(
+                          context: context,
+                          builder: (context) => ReportForm(nim: widget.user.nim)
+                        );
+                        if(res != null && res == 1){
+                          setState(() {
+                            // myInit = refresh();
+                            print('Refresh Data');
+                          });
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => MyApp()));
+                        }
                       },
                     ),
                   ],

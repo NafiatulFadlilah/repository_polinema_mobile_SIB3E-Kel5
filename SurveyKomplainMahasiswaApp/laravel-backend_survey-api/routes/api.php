@@ -36,12 +36,12 @@ Route::get("students", [StudentsAPIController::class, "index"]);
 Route::get("students/{nim}", [StudentsAPIController::class, "show"]);
 Route::post("students/login", [StudentsAPIController::class, "login"]);
 Route::post("add_student", [StudentsAPIController::class, "store"]);
-Route::put("edit_student/{nim}", [StudentsAPIController::class, "update"]);
+Route::post("edit_student/{nim}", [StudentsAPIController::class, "update"]);
 // Route::delete("students/{nim}", [StudentsAPIController::class, "destroy"]);
 
 Route::get("reports", [ReportsAPIController::class, "index"]);
 Route::get("reports/{id}", [ReportsAPIController::class, "show"]);
 Route::get("reports/{id}/image", [ReportsAPIController::class, "showimg"]);
 Route::post("add_report", [ReportsAPIController::class, "store"]);
-Route::put("edit_report/{id}", [ReportsAPIController::class, "update"]);
+Route::post("edit_report/{id}", [ReportsAPIController::class, "update"]);
 // Route::delete("reports/{id}", [ReportsAPIController::class, "destroy"]);
