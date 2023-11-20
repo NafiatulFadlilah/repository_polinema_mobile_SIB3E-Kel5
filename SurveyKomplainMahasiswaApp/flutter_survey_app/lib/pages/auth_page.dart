@@ -34,8 +34,9 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
+    // var brightness = MediaQuery.of(context).platformBrightness;
+    // bool isDarkMode = brightness == Brightness.dark;
+    bool isDarkMode = false;
     return Scaffold(
       body: Center(
         child: Container(

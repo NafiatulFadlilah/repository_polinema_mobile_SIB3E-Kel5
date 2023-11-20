@@ -172,6 +172,10 @@ class _MyAppState extends State<MyApp> {
           } else if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
               appBar: AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                ),
                 title: Text('Main Page'),
                 backgroundColor: Color.fromARGB(255, 0, 88, 160),
                 actions: [
