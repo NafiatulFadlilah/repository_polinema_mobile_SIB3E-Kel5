@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_survey_app/models/report.dart';
 import 'package:flutter_survey_app/services/reports_services.dart';
 import 'package:intl/intl.dart';
@@ -12,11 +13,14 @@ class _ListReportsState extends State<ListReports> {
   // deklarasikan variabel untuk menyimpan list reports
   List<Report> reports = [];
   ReportService service = ReportService();
+  String baseUrl= "";
 
   // buat fungsi untuk mendapatkan data reports dari server
   Future<void> getReports() async {
+    await dotenv.load(fileName: ".env");
     reports = await service.getAllData();
     setState(() {
+      baseUrl = dotenv.env['SERVER_ADDRESS']!;
       reports = reports;
     });
   }
@@ -75,7 +79,7 @@ class _ListReportsState extends State<ListReports> {
                               ),
                           // tampilkan evidence sebagai trailing
                           children: [
-                            Image.network("http://192.168.1.77:8000/surveyapi/reports/${report.id}/image",height: 200,fit: BoxFit.fitHeight,),
+                            Image.network("${baseUrl}reports/${report.id}/image",height: 200,fit: BoxFit.fitHeight,),
                             Container(
                               color: Colors.black54,
                               padding: const EdgeInsets.all(10),
