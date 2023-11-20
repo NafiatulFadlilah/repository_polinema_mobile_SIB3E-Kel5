@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_survey_app/models/user.dart';
+import 'package:flutter_survey_app/pages/detail_reports.dart';
 import 'package:flutter_survey_app/pages/form_report.dart';
 import 'package:flutter_survey_app/pages/homepage.dart';
 import 'package:flutter_survey_app/pages/splash_screen.dart';
@@ -38,6 +39,15 @@ class _SelectionPageState extends State<SelectionPage>{
                       textColor: const [Colors.white, Colors.white],
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => MyApp()));
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ButtonWidget(
+                      text: 'List Report',
+                      backColor: isDarkMode ? [Colors.black, Colors.black] : const [Color(0xff92A3FD), Color(0xff9DCEFF)],
+                      textColor: const [Colors.white, Colors.white],
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => ListReports()));
                       },
                     ),
                     SizedBox(height: 20),
