@@ -12,7 +12,7 @@ class ReportsAPIController extends Controller
     // All report data
     public function index()
     {
-        $reports = ReportData::with('student')->get();
+        $reports = ReportData::with('student')->latest()->get();
         return response()->json($reports, 200);
     }
 
@@ -25,6 +25,25 @@ class ReportsAPIController extends Controller
         } else {
             return response()->json(['message' => 'Report not found'], 404);
         }
+    }
+
+    // range report data
+    public function showRange(Request $request)
+    {
+        $request->validate([
+            'limit' => 'required|integer|min:10',
+            'offset' => 'required|integer|min:0',
+        ]);
+
+        // Get the limit and offset values from the request
+        $limit = $request->input('limit');
+        $offset = $request->input('offset');
+
+        // Use the with method to eager load the student relation
+        // Use the skip and take methods to apply the limit and offset
+        $reports = ReportData::with('student')->skip($offset)->take($limit)->latest()->get();
+        // Return the data as a json response
+        return response()->json($reports, 200);
     }
 
     // Gambar report by id
