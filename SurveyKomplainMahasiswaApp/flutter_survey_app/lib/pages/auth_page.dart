@@ -140,14 +140,14 @@ class _AuthPageState extends State<AuthPage> {
                           : Container(),
                       Form(
                         child: buildTextField(
-                          "Email",
-                          Icons.email_outlined,
+                          "Username",
+                          Icons.person_outlined,
                           false,
                           size,
                           (valuemail) {
                             if (valuemail.length < 5) {
                               buildSnackError(
-                                'Invalid email',
+                                'Invalid username',
                                 context,
                                 size,
                               );
