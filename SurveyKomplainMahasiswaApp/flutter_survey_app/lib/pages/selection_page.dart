@@ -58,7 +58,7 @@ class _SelectionPageState extends State<SelectionPage>{
                       onPressed: () async {
                         int? res = await showDialog(
                           context: context,
-                          builder: (context) => ReportForm(nim: widget.user.nim)
+                          builder: (context) => ReportForm(nim: widget.user.nim, status: widget.user.status,)
                         );
                         if(res != null && res == 1){
                           setState(() {

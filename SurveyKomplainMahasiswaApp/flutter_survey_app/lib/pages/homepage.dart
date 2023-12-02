@@ -163,8 +163,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FutureBuilder(
+    return FutureBuilder(
         future: myInit,
         builder: (context,snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
@@ -802,7 +801,6 @@ class _MyAppState extends State<MyApp> {
             return Center(child: Text('Something went wrong'));
           }
         }
-      ),
-    );
+      );
   }
 }
