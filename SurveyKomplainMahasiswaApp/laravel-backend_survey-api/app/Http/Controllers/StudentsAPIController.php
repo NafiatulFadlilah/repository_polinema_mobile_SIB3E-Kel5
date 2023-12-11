@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentData;
+use App\Models\StudentGrade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class StudentsAPIController extends Controller
 {
@@ -15,7 +17,16 @@ class StudentsAPIController extends Controller
         $students = StudentData::all();
         return response()->json($students, 200);
     }
-
+    
+    public function showGrade()
+    {
+        // $student = StudentData::where('status', 'Lulus')->with('students_grade')->get();;
+        $grade = StudentGrade::join('students_data', 'students_grade.nim', '=', 'students_data.nim')
+            ->where('students_data.status', 'Lulus')
+            ->select('*') 
+            ->get();
+        return response()->json($grade, 200);
+    }
     // A method to get a single student data by nim
     public function show($nim)
     {
@@ -25,6 +36,15 @@ class StudentsAPIController extends Controller
         } else {
             return response()->json(['message' => 'Student not found'], 404);
         }
+    }
+    public function showStat()
+    {
+        $student = DB::table('students_data')->select(
+        DB::raw("CASE WHEN status LIKE '%MD%' OR status LIKE '%Mengundurkan%' THEN 'MD(Mengundurkan Diri)' ELSE status END AS status_grouped"), 
+        DB::raw('count(*) as total'))
+        ->groupBy('status_grouped')
+        ->get();
+        return $student;
     }
     public function login(Request $request)
     {

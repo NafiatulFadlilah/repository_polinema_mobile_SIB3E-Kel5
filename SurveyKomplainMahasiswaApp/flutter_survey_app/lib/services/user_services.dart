@@ -45,6 +45,22 @@ class UserService {
       return null;
     }
   }
+  Future<List?> getStatus() async {
+    await dotenv.load(fileName: ".env");
+    final String? baseUrl = dotenv.env['SERVER_ADDRESS']! + 'students_status';
+    try {
+      http.Response response =
+          await http.get(Uri.parse(baseUrl!));
+      if (response.statusCode == HttpStatus.ok) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to get Status ${response.statusCode} ${jsonDecode(response.body)}');
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   Future<int> login(nim,pass) async {
     await dotenv.load(fileName: ".env");

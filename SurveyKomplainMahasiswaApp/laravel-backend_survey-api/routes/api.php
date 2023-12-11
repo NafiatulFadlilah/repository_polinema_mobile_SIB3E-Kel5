@@ -39,6 +39,9 @@ Route::post("add_student", [StudentsAPIController::class, "store"]);
 Route::post("edit_student/{nim}", [StudentsAPIController::class, "update"]);
 // Route::delete("students/{nim}", [StudentsAPIController::class, "destroy"]);
 
+Route::get("students_grade", [StudentsAPIController::class, "showGrade"]);
+Route::get("students_status", [StudentsAPIController::class, "showStat"]);
+
 Route::get("reports", [ReportsAPIController::class, "index"]);
 Route::get("reports/{id}", [ReportsAPIController::class, "show"]);
 Route::get("reports/{id}/image", [ReportsAPIController::class, "showimg"]);

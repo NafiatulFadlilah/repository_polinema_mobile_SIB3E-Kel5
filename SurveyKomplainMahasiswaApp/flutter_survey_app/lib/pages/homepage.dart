@@ -7,6 +7,7 @@ import 'package:flutter_survey_app/pages/detail_page.dart';
 import 'package:flutter_survey_app/pages/insert_complain.dart';
 import 'package:flutter_survey_app/pages/splash_screen.dart';
 import 'package:flutter_survey_app/services/server_services.dart';
+import 'package:flutter_survey_app/services/user_services.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class MyApp extends StatefulWidget {
@@ -16,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ServerService? service;
+  UserService? ser2;
   // List surveys = [];
   // List byFactor = [];
   List<ByGender> byGender = [];
@@ -23,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   double avgAge = 0;
   double avgGPA = 0;
   List surveysByFactor = [];
+  List? dataStatus = [];
   int surveysCount = 0;
   int problemCount = 0;
   // int totalByFactor = 0;
@@ -37,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   List<double> natChartOpacities = [];
   List<Color> jkChartColors = [];
   List<double> jkChartOpacities = [];
+  List<Color> gradStatusChartColors = [];
 
   late Future myInit;
 
@@ -76,6 +80,7 @@ class _MyAppState extends State<MyApp> {
     byGender = (await service!.getShowDataByGender());
     byNationality = (await service!.getShowDataByNationality());
     surveysByFactor = await service!.getShowDataByFactor();
+    dataStatus = await ser2!.getStatus();
     avgAge = (await service!.getAvgAge());
     avgGPA = (await service!.getAvgGPA());
     setState(() {
@@ -84,6 +89,7 @@ class _MyAppState extends State<MyApp> {
       surveysCount = surveysCount;
       // surveys = surveys;
       surveysByFactor = surveysByFactor;
+      dataStatus = dataStatus;
       byGender = byGender;
       totalByGender =
           byGender.firstWhere((item) => item.gender == selectedGender).total;
@@ -97,6 +103,7 @@ class _MyAppState extends State<MyApp> {
       jkChartColors =
           List.generate(byGender.length, (index) => getRandomColor());
       jkChartOpacities = List.generate(byGender.length, (index) => 1.0);
+      gradStatusChartColors = List.generate(dataStatus!.length, (index) => getRandomColor());
     });
     // changeOpacity(
     //     byNationality
@@ -113,11 +120,13 @@ class _MyAppState extends State<MyApp> {
     byGender = (await service!.getShowDataByGender());
     byNationality = (await service!.getShowDataByNationality());
     surveysByFactor = await service!.getShowDataByFactor();
+    dataStatus = await ser2!.getStatus();
     avgAge = (await service!.getAvgAge());
     avgGPA = (await service!.getAvgGPA());
     setState(() {
       surveysCount = surveysCount;
       surveysByFactor = surveysByFactor;
+      dataStatus = dataStatus;
       problemCount = surveysByFactor.firstWhere((item) => item['genre'] == selectedProblemFactor)["total"];
       byGender = byGender;
       totalByGender =
@@ -132,6 +141,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     service = ServerService();
+    ser2 = UserService();
     // initialize();
     myInit = initialize();
     super.initState();
@@ -680,6 +690,99 @@ class _MyAppState extends State<MyApp> {
                                       }
                                     },
                                   ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // chart lulusan
+                          Card(
+                            elevation: 4.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Jumlah berdasarkan status kelulusan',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 2,),
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 200,
+                                        child: PieChart(
+                                          PieChartData(
+                                            sections: List.generate(
+                                              dataStatus!.length,
+                                              (index) { 
+                                                double percentage = (dataStatus![index]['total'].toDouble() / dataStatus!.fold(0, (sum, item) => item['total'] + sum)) * 100;
+                                                return PieChartSectionData(
+                                                color: gradStatusChartColors[index],
+                                                value: percentage,
+                                                title: '${percentage.toStringAsFixed(2)}%',
+                                                radius: 86,
+                                                // radius: selectedCountry ==
+                                                //         byNationality[
+                                                //                 index]
+                                                //             .nationality
+                                                //     ? 86
+                                                //     : 78,
+                                                titleStyle: TextStyle(fontWeight: FontWeight.bold),
+                                                titlePositionPercentageOffset: percentage >= 7 ? 0.5 : 1.3,
+                                              );
+                                              }
+                                            ),
+                                            sectionsSpace: 4,
+                                            centerSpaceRadius: 5,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 25.0,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: dataStatus!.map((item) {
+                                            return Row(
+                                              children: [
+                                                Container(
+                                                  width: 10,
+                                                  height: 10,
+                                                  color: gradStatusChartColors[dataStatus!.indexOf(item)],
+                                                ),
+                                                SizedBox(width: 5),
+                                                Text(item['status_grouped']),
+                                                SizedBox(width: 5),
+                                              ],
+                                            );
+                                          }).toList(),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  // Legend for Graduation Status Chart
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.center,
+                                  //   children: dataStatus!.map((item) {
+                                  //     return Row(
+                                  //       children: [
+                                  //         Container(
+                                  //           width: 10,
+                                  //           height: 10,
+                                  //           color: gradStatusChartColors[dataStatus!.indexOf(item)],
+                                  //         ),
+                                  //         SizedBox(width: 5),
+                                  //         Text(item['status_grouped']),
+                                  //         SizedBox(width: 5),
+                                  //       ],
+                                  //     );
+                                  //   }).toList(),
+                                  // ),
                                 ],
                               ),
                             ),

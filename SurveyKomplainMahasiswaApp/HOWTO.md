@@ -36,6 +36,7 @@
     ```bash
     php artisan db:seed --class=StudentComplaintSurveySeeder
     php artisan db:seed --class=StudentsSeeder
+    php artisan db:seed --class=students_gradeSeeder
     ```   
 9. Untuk menjalankan aplikasi laravel gunakan perintah:
     ```bash

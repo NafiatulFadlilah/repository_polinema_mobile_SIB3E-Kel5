@@ -15,6 +15,7 @@ class StudentData extends Model
     protected $fillable = [
         'nim', 
         'name', 
+        'status', 
         'phone', 
         'password'
     ];
