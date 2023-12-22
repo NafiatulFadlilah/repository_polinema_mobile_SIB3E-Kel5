@@ -80,8 +80,8 @@ Flowchart tersebut dapat membantu pengguna untuk memahami alur dari aplikasi mob
 
 | Foto | Nama Lengkap | GitHub | Peran |
 |:----:|:------------:|:------:|:-----:|
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710140-EiSw6.jpeg" alt="Foto 1" width="100px" height="100%"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710073-9pkTX.jpeg" alt="Foto 2" width="100px" height="100%"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
+| <img src="https://github.com/i9191/repository_polinema_mobile_SIB3E-Kel5/assets/91296724/79be03da-9a0e-4045-9645-f67004962eed" alt="Foto 1" width="100px" height="100%"> | Muhamad Helmi Permana Agung | [N00budrag0n](https://github.com/N00budrag0n) | Backend Flutter dan Frontend Flutter |
+| <img src="https://github.com/i9191/repository_polinema_mobile_SIB3E-Kel5/assets/91296724/704208a6-8e49-4ad4-9142-789f2a9262a3" alt="Foto 2" width="100px" height="100%"> | Ibnu Tsalis Assalam | [i9191](https://github.com/i9191) | Backend Laravel dan Backend Flutter |
 | <img src="https://media.licdn.com/dms/image/D5603AQH0XquxsrmMTQ/profile-displayphoto-shrink_800_800/0/1674222566598?e=1704326400&v=beta&t=jqGSDulx2f-3VHXYQskX-mWwdaidGCcPBETEPLZ7jlE" alt="Foto 3" width="100px" height="100%"> | Khosyi Nasywa Imanda | [KhosyiNasywaImanda](https://github.com/KhosyiNasywaImanda) | Design UI dan Frontend Flutter |
-| <img src="https://akademik.polinema.ac.id/upload_dir/foto_ktm_valid/2021/2131710030-e8pLR.jpeg" alt="Foto 4" width="100px" height="100%"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem dan Frontend Flutter |
+| <img src="https://github.com/i9191/repository_polinema_mobile_SIB3E-Kel5/assets/91296724/de96bc5b-6b46-4f78-89eb-a0cf3523d314" alt="Foto 4" width="100px" height="100%"> | Nafiatul Fadlilah | [NafiatulFadlilah](https://github.com/NafiatulFadlilah) | Design Alur Sistem dan Frontend Flutter |
 
