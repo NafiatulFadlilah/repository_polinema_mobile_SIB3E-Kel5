@@ -756,7 +756,14 @@ class _MyAppState extends State<MyApp> {
                                                   color: gradStatusChartColors[dataStatus!.indexOf(item)],
                                                 ),
                                                 SizedBox(width: 5),
-                                                Text(item['status_grouped']),
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Text(item['status_grouped'],
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.fade,
+                                                      softWrap: false,),
+                                                  ),
+                                                ),
                                                 SizedBox(width: 5),
                                               ],
                                             );
