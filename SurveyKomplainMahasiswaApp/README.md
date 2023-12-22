@@ -76,6 +76,9 @@ Flowchart tersebut dapat membantu pengguna untuk memahami alur dari aplikasi mob
 
 <p style="text-align: justify;">Jika pengguna memiliki akses terhadap menu ini maka bisa melaporkan aduannya ke pihak perguruan tinggi dengan mengisi form tersebut.  </p>
 
+#### Link Video Demonstrasi Aplikasi
+<p style="text-align: justify;">https://drive.google.com/file/d/1MPXHB7CSuUdOC5xIVyp_5P0cADVIK3LB/view?usp=sharing</p>
+
 ## Kontributor
 
 | Foto | Nama Lengkap | GitHub | Peran |
